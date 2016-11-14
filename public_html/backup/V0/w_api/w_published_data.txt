@@ -1,0 +1,1 @@
+a:2:{s:5:"pages";a:3:{i:0;s:10:"index.html";i:1;s:10:"about.html";i:2;s:12:"contact.html";}s:9:"protected";a:3:{s:4:"Home";b:0;s:5:"About";b:0;s:7:"Contact";b:0;}}
