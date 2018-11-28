@@ -1,0 +1,8 @@
+* Version - 1.0.6
+- Added HTTPS for fonts
+- Sanitized the Email in the toolbar
+- Removed The contact form. For more flexibility users have to use the Contact Form 7 Instead
+- Added a full width Page tempalte (No sidebar). 
+- Added a clean template, no columns, no sidebars. Perfect for Page builders.
+- Removed Theme Options
+- Al options are set in the Customizer
