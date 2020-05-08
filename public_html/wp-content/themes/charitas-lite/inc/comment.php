@@ -14,16 +14,16 @@ function wplook_comment( $comment, $args, $depth ) {
 	switch ( $comment->comment_type ) :
 		case '' :
 	?>
-	
+
 	<li <?php comment_class('vcard'); ?> id="comment-<?php comment_ID(); ?>">
-		
+
 		<div class="comment-gravatar fleft">
 			<?php echo get_avatar( $comment, 50 ); ?>
 		</div>
 
 		<div class="entry-header-comments">
 			<div class="reply fright"><?php comment_reply_link( array_merge( $args, array( 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?></div>
-			
+
 			<?php printf( __( '%s <span class="says">says on:</span>', 'charitas-lite' ), sprintf( '<h3 class="fn">%s</h3>', get_comment_author_link() ) ); ?> </br />
 			<div class="comment-date fleft"><i class="icon-clock"></i> <?php printf( __( '%1$s at %2$s', 'charitas-lite' ), get_comment_date(), get_comment_time() ); ?></div>
 			<div class="clear"></div>
@@ -38,12 +38,12 @@ function wplook_comment( $comment, $args, $depth ) {
 				<br />
 				<?php endif; ?>
 				<?php comment_text(); ?>
-				
+
 				<div class="clear"></div>
 			</div>
 		</div>
 		<div class="clear"></div>
-		
+
 	<!-- </li># comment #-->
 <?php
 	break;
@@ -58,7 +58,7 @@ function wplook_comment( $comment, $args, $depth ) {
 		<div class="comment-body">
 		<div class="entry-header-comments">
 		<span class="tooltip"></span>
-	
+
 		 <span class="fn"><a><?php _e( 'Pingback/Trackback', 'charitas-lite' ); ?></a></span>
 		<span class="comment-date"><?php printf( __( '%1$s at %2$s', 'charitas-lite' ), get_comment_date(), get_comment_time() ); ?></span>
 		</div>
@@ -74,7 +74,7 @@ function wplook_comment( $comment, $args, $depth ) {
 		</div>
 		<div class="clear"></div>
 	<!-- </li># ping #-->
-<?php break; 	endswitch; 
+<?php break; 	endswitch;
 } endif; ?>
 <?php
 // create new comment form

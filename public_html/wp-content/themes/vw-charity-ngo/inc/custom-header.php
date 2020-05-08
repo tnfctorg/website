@@ -10,7 +10,7 @@ function vw_charity_ngo_custom_header_setup() {
 		'default-text-color'     => 'fff',
 		'header-text' 			 =>	false,
 		'width'                  => 1600,
-		'height'                 => 400,
+		'height'                 => 92,
 		'wp-head-callback'       => 'vw_charity_ngo_header_style',
 	) ) );
 }
@@ -22,21 +22,16 @@ if ( ! function_exists( 'vw_charity_ngo_header_style' ) ) :
  *
  * @see vw_charity_ngo_custom_header_setup().
  */
+add_action( 'wp_enqueue_scripts', 'vw_charity_ngo_header_style' );
 function vw_charity_ngo_header_style() {
-
-		$header_text_color = get_header_textcolor();
-	?>
-		<style type="text/css">
-			<?php
-				//Check if user has defined any header image.
-				if ( get_header_image() ) :
-			?>
-				#header{
-					background: url(<?php echo esc_url(get_header_image()); ?>) no-repeat;
-					background-position: center top;
-				}
-			<?php endif; ?>	
-		</style>
-	<?php
+	//Check if user has defined any header image.
+	if ( get_header_image() ) :
+	$custom_css = "
+        #header,.page-template-custom-home-page #header{
+			background-image:url('".esc_url(get_header_image())."');
+			background-position: center top;
+		}";
+	   	wp_add_inline_style( 'vw-charity-ngo-basic-style', $custom_css );
+	endif;
 }
 endif; // vw_charity_ngo_header_style

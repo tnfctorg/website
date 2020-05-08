@@ -17,7 +17,7 @@
 		<?php if ( get_theme_mod('wplook_breadcrumb') != 'no' ){ ?>
 			<div class="grid_6">
 				<div id="rootline">
-					<?php charitas_breadcrumbs(); ?>	
+					<?php charitas_breadcrumbs(); ?>
 				</div>
 			</div>
 		<?php } ?>

@@ -26,15 +26,24 @@ class SiteOrigin_Panels_Live_Editor {
 		if(
 			! empty( $_POST['live_editor_panels_data'] ) &&
 			! empty( $post->ID ) &&
-			current_user_can( 'edit_post', $post->ID )
+			current_user_can( 'edit_post', $post->ID ) &&
+			isset( $_GET['_panelsnonce'] ) &&
+			! wp_verify_nonce( $_GET['_panelsnonce'], 'panels_action' )
 		) {
 			// Disable XSS protection when in the Live Editor
 			header( 'X-XSS-Protection: 0' );
+		} else {
+			// If this class has been loaded, we know we're in the Live Editor
+			// In the case that data or the nonce isn't valid, wp_die as a security precaution.
+			// This will happen on template_redirect.
+			wp_die();
 		}
 	}
-
+	
+	
 	/**
-	 * Edit the page builder data when we're viewing the live editor version
+	 * Edit the page builder data when we're viewing the live editor version. This is necessary to ensure updated styles
+	 * are rendered in the preview.
 	 *
 	 * @param $value
 	 * @param $post_id
@@ -49,23 +58,10 @@ class SiteOrigin_Panels_Live_Editor {
 			! empty( $_POST['live_editor_panels_data'] ) &&
 			$_POST['live_editor_post_ID'] == $post_id
 		) {
-			$data = json_decode( wp_unslash( $_POST['live_editor_panels_data'] ), true );
-
-			if (
-				! empty( $data['widgets'] ) && (
-					! class_exists( 'SiteOrigin_Widget_Field_Class_Loader' ) ||
-					method_exists( 'SiteOrigin_Widget_Field_Class_Loader', 'extend' )
-				)
-			) {
-				$data['widgets'] = SiteOrigin_Panels_Admin::single()->process_raw_widgets( $data['widgets'], false, false );
-			}
-
-			$value = array( $data );
+			$value = array( json_decode( wp_unslash( $_POST['live_editor_panels_data'] ), true ) );
 		}
-
 		return $value;
 	}
-
 
 	/**
 	 * Load the frontend scripts for the live editor

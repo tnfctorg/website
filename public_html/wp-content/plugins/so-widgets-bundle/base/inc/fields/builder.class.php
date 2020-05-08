@@ -11,7 +11,7 @@ class SiteOrigin_Widget_Field_Builder extends SiteOrigin_Widget_Field_Base {
 		if( defined('SITEORIGIN_PANELS_VERSION') ) {
 			// Normal rendering code
 			// In some contexts this is already encoded, e.g. accordion widget using a layout field for content,
-			// inside a PB block in Gutenberg.
+			// inside a PB block in the block editor.
 			$valid_string = is_string( $value ); // Required for PHP <5.4
 			if ( empty( $valid_string ) ) {
 				$value = json_encode( $value );
@@ -55,12 +55,18 @@ class SiteOrigin_Widget_Field_Builder extends SiteOrigin_Widget_Field_Base {
 	 * @return array|mixed|object
 	 */
 	protected function sanitize_field_input( $value, $instance ){
-		$panels_data = json_decode( $value, true );
-		if( function_exists('siteorigin_panels_process_raw_widgets') && !empty( $panels_data['widgets'] ) && is_array( $panels_data['widgets'] ) ) {
-			$panels_data['widgets'] = siteorigin_panels_process_raw_widgets( $panels_data['widgets'] );
+		if ( empty( $value ) ) {
+			return array();
+		}
+		if ( is_string( $value ) ) {
+			$value = json_decode( $value, true );
+		}
+		
+		if( function_exists('siteorigin_panels_process_raw_widgets') && !empty( $value['widgets'] ) && is_array( $value['widgets'] ) ) {
+			$value['widgets'] = siteorigin_panels_process_raw_widgets( $value['widgets'] );
 		}
 
-		return $panels_data;
+		return $value;
 	}
 
 }

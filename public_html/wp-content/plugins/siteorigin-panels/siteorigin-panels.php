@@ -3,7 +3,7 @@
 Plugin Name: Page Builder by SiteOrigin
 Plugin URI: https://siteorigin.com/page-builder/
 Description: A drag and drop, responsive page builder that simplifies building your website.
-Version: 2.9.1
+Version: 2.10.16
 Author: SiteOrigin
 Author URI: https://siteorigin.com
 License: GPL3
@@ -11,12 +11,12 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Donate link: http://siteorigin.com/page-builder/#donate
 */
 
-define( 'SITEORIGIN_PANELS_VERSION', '2.9.1' );
+define( 'SITEORIGIN_PANELS_VERSION', '2.10.16' );
 if ( ! defined( 'SITEORIGIN_PANELS_JS_SUFFIX' ) ) {
 	define( 'SITEORIGIN_PANELS_JS_SUFFIX', '.min' );
 }
 define( 'SITEORIGIN_PANELS_CSS_SUFFIX', '.min' );
-define( 'SITEORIGIN_PANELS_VERSION_SUFFIX', '-291' );
+define( 'SITEORIGIN_PANELS_VERSION_SUFFIX', '-21016' );
 
 require_once plugin_dir_path( __FILE__ ) . 'inc/functions.php';
 
@@ -37,12 +37,21 @@ class SiteOrigin_Panels {
 		add_filter( 'body_class', array( $this, 'body_class' ) );
 		add_filter( 'siteorigin_panels_data', array( $this, 'process_panels_data' ), 5 );
 		add_filter( 'siteorigin_panels_widget_class', array( $this, 'fix_namespace_escaping' ), 5 );
+		
+		add_action( 'activated_plugin', array($this, 'activation_flag_redirect') );
+		add_action( 'admin_init', array($this, 'activation_do_redirect') );
+
+		if (
+			is_admin() ||
+			( wp_doing_ajax() && isset($_REQUEST['action']) && $_REQUEST['action'] == 'inline-save' )
+		) {
+			SiteOrigin_Panels_Admin::single();
+		}
 
 		if ( is_admin() ) {
 			// Setup all the admin classes
 			SiteOrigin_Panels_Settings::single();
 			SiteOrigin_Panels_Revisions::single();
-			SiteOrigin_Panels_Admin::single();
 		}
 
 		// Include the live editor file if we're in live editor mode.
@@ -71,9 +80,8 @@ class SiteOrigin_Panels {
 		SiteOrigin_Panels_Cache_Renderer::single();
 		
 		if ( function_exists( 'register_block_type' ) ) {
-			SiteOrigin_Panels_Compat_Gutenberg_Block::single();
+			SiteOrigin_Panels_Compat_Layout_Block::single();
 		}
-		
 		
 		define( 'SITEORIGIN_PANELS_BASE_FILE', __FILE__ );
 	}
@@ -183,6 +191,11 @@ class SiteOrigin_Panels {
 		if ( is_admin() ) {
 			SiteOrigin_Panels_Admin::single();
 		}
+		
+		// Compatibility with Widget Options plugin
+		if( class_exists('WP_Widget_Options') ) {
+			require_once plugin_dir_path( __FILE__ ) . 'compat/widget-options.php';
+		}
 	}
 
 	/**
@@ -231,10 +244,10 @@ class SiteOrigin_Panels {
 				'true',
 				admin_url( 'admin-ajax.php?action=so_panels_live_editor_preview' )
 			);
-			$preview_url = wp_nonce_url( $preview_url, 'live-editor-preview', '_panelsnonce' );
 		} else {
-			$preview_url = add_query_arg( 'siteorigin_panels_live_editor', 'true', set_url_scheme( get_permalink() ) );
+			$preview_url = esc_url( add_query_arg( 'siteorigin_panels_live_editor', 'true', set_url_scheme( get_permalink() ) ) );
 		}
+		$preview_url = wp_nonce_url( $preview_url, 'live-editor-preview', '_panelsnonce' );
 
 		return $preview_url;
 	}
@@ -319,7 +332,7 @@ class SiteOrigin_Panels {
 						$content = explode( $matches[0], $content, 2 );
 						$content = $content[0];
 						$content = force_balance_tags( $content );
-						if ( ! empty( $matches[1] ) && ! empty( $more_link_text ) ) {
+						if ( ! empty( $matches[1] ) ) {
 							$more_link_text = strip_tags( wp_kses_no_null( trim( $matches[1] ) ) );
 						} else {
 							$more_link_text = __( 'Read More', 'siteorigin-panels' );
@@ -624,6 +637,55 @@ class SiteOrigin_Panels {
 			$url = add_query_arg( 'ref', urlencode( $ref ), $url );
 		}
 		return $url;
+	}
+	
+	
+	/**
+	 * Get the registered widget instance by it's class name or the hash generated when it was registered.
+	 *
+	 * @param $class_or_hash
+	 *
+	 * @return array
+	 */
+	static function get_widget_instance( $class_or_hash ) {
+		global $wp_widget_factory;
+		if ( isset( $wp_widget_factory->widgets[ $class_or_hash ] ) ) {
+			return $wp_widget_factory->widgets[ $class_or_hash ];
+		} else {
+			foreach ( $wp_widget_factory->widgets as $widget_instance ) {
+				if ( $widget_instance instanceof $class_or_hash ) {
+					return $widget_instance;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 *  Flag redirect to welcome page after activation
+	 *
+	 * @param $plugin
+	 */
+	public function activation_flag_redirect( $plugin ) {
+		if ( $plugin == plugin_basename( __FILE__ ) ) {
+			set_transient( 'siteorigin_panels_activation_welcome', true, 30 );
+		}
+	}
+
+	/**
+	 * Redirect to a welcome page after activation.
+	 */
+	public function activation_do_redirect() {
+		if ( get_transient( 'siteorigin_panels_activation_welcome' ) ) {
+			delete_transient( 'siteorigin_panels_activation_welcome' );
+
+			// Postpone redirect in certain situations
+			if ( ! wp_doing_ajax() && ! is_network_admin() && ! isset( $_GET['activate-multi'] ) ) {
+				delete_transient( 'siteorigin_panels_activation_welcome' );
+				wp_safe_redirect( admin_url( 'options-general.php?page=siteorigin_panels#welcome' ) );
+				exit();
+			}
+		}
 	}
 }
 

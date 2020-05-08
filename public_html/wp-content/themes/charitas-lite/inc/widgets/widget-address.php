@@ -8,14 +8,14 @@
  * Author URI: https://www.wplook.com
 */
 
-add_action('widgets_init', create_function('', 'return register_widget("wplook_address_widget");'));
+add_action('widgets_init', function(){return register_widget("wplook_address_widget");});
 class wplook_address_widget extends WP_Widget {
 
 
 	/*-----------------------------------------------------------------------------------*/
 	/*	Widget actual processes
 	/*-----------------------------------------------------------------------------------*/
-	
+
 	public function __construct() {
 		parent::__construct(
 	 		'wplook_address_widget',
@@ -51,11 +51,11 @@ class wplook_address_widget extends WP_Widget {
 			$street_address = __( '', 'charitas-lite' );
 		}
 
-		
 
-		
 
-		
+
+
+
 
 		if ( $instance ) {
 			$phone = esc_attr( $instance[ 'phone' ] );
@@ -83,7 +83,7 @@ class wplook_address_widget extends WP_Widget {
 				<label for="<?php echo $this->get_field_id('title'); ?>"> <?php _e('Title:', 'charitas-lite'); ?> </label>
 				<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
 			</p>
-			
+
 			<p>
 				<label for="<?php echo $this->get_field_id('organisation_name'); ?>"> <?php _e('Organisation Name:', 'charitas-lite'); ?> </label>
 				<input class="widefat" id="<?php echo $this->get_field_id('organisation_name'); ?>" name="<?php echo $this->get_field_name('organisation_name'); ?>" type="text" value="<?php echo $organisation_name; ?>" />
@@ -96,11 +96,11 @@ class wplook_address_widget extends WP_Widget {
 				</label>
 				<textarea cols="25" rows="10" class="widefat" id="<?php echo $this->get_field_id('street_address'); ?>" name="<?php echo $this->get_field_name('street_address'); ?>" type="text"><?php echo $street_address; ?></textarea>
 			</p>
-			
 
-			
 
-			
+
+
+
 
 			<p>
 				<label for="<?php echo $this->get_field_id('phone'); ?>"> <?php _e('Phone:', 'charitas-lite'); ?> </label>
@@ -121,14 +121,14 @@ class wplook_address_widget extends WP_Widget {
 			</p>
 
 
-		<?php 
+		<?php
 	}
-	
+
 
 	/*-----------------------------------------------------------------------------------*/
 	/*	Processes widget options to be saved
 	/*-----------------------------------------------------------------------------------*/
-	
+
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = sanitize_text_field($new_instance['title']);
@@ -155,10 +155,10 @@ class wplook_address_widget extends WP_Widget {
 		$phone = apply_filters( 'widget', $instance['phone'] );
 		$email = apply_filters( 'widget', $instance['email'] );
 		$website = apply_filters( 'widget', $instance['website'] );
-		
+
 		?>
-		
-			
+
+
 			<?php if ($title=="") $title = "Contact us"; ?>
 			<?php echo $before_widget; ?>
 			<?php if ( $title )
@@ -168,7 +168,7 @@ class wplook_address_widget extends WP_Widget {
 				<?php if($organisation_name){ ?>
 					<h3 class="org vcard"><?php echo $organisation_name; ?></h3>
 				<?php } ?>
-				
+
 				<p class="adr">
 					<?php if ( $street_address ){ ?>
 						<span class="street-address"> <?php echo $street_address; ?></span>
@@ -182,11 +182,11 @@ class wplook_address_widget extends WP_Widget {
 					<b><?php _e('E-mail:', 'charitas-lite'); ?></b><span class="email"> <?php echo $email; ?></span><br />
 				<?php } ?>
 
-				<?php if ( $website ){ ?>	
+				<?php if ( $website ){ ?>
 					<b><?php _e('Website:', 'charitas-lite'); ?></b><span class="url"> <?php echo $website ?></span><br />
 				<?php } ?>
 			</address>
-		<?php echo $after_widget; 
+		<?php echo $after_widget;
 	}
 }
 ?>

@@ -12,24 +12,21 @@
 <?php while ( have_posts() ) : the_post(); // start of the loop.?>
 
 	<div class="item teaser-page-list">
-	
+
 		<div class="container_16">
 			<aside class="grid_10">
-				<?php 
-				if ( get_the_title() ) {
+				<?php if ( get_the_title() ) {
 					the_title('<h1 class="page-title">', '</h1>');
 				} else {
 					echo '<h1 class="page-title">';
 					echo esc_html(get_the_date());
 					echo "</h1>";
-				}
-
-				?>
+				} ?>
 			</aside>
 			<?php if ( get_theme_mod('wplook_breadcrumb') != 'no' ){ ?>
 				<div class="grid_6">
 					<div id="rootline">
-						<?php charitas_breadcrumbs(); ?>	
+						<?php charitas_breadcrumbs(); ?>
 					</div>
 				</div>
 			<?php } ?>
@@ -48,6 +45,6 @@
 		<?php get_sidebar(); ?>
 		<div class="clear"></div>
 	</div><!-- #primary -->
-</div>	
+</div>
 
 <?php get_footer(); ?>

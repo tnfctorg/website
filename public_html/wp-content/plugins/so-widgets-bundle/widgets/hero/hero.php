@@ -4,6 +4,7 @@ Widget Name: Hero Image
 Description: A big hero image with a few settings to make it your own.
 Author: SiteOrigin
 Author URI: https://siteorigin.com
+Documentation: https://siteorigin.com/widgets-bundle/hero-image-widget/
 */
 
 if( !class_exists( 'SiteOrigin_Widget_Base_Slider' ) ) include_once plugin_dir_path(SOW_BUNDLE_BASE_FILE) . '/base/inc/widgets/base-slider.class.php';
@@ -32,7 +33,9 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 		if( !class_exists('SiteOrigin_Widget_Button_Widget') ) {
 			SiteOrigin_Widgets_Bundle::single()->include_widget( 'button' );
 		}
-
+		
+		add_action( 'siteorigin_widgets_enqueue_frontend_scripts_' . $this->id_base, array( $this, 'enqueue_widget_scripts' ) );
+		
 		add_filter( 'siteorigin_widgets_wrapper_classes_' . $this->id_base, array( $this, 'wrapper_class_filter' ), 10, 2 );
 		add_filter( 'siteorigin_widgets_wrapper_data_' . $this->id_base, array( $this, 'wrapper_data_filter' ), 10, 2 );
 
@@ -169,6 +172,12 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 						'default' => 'default',
 					),
 
+					'vertically_align' => array(
+						'type' => 'checkbox',
+						'label' => __( 'Vertically center align slide contents', 'so-widgets-bundle' ),
+						'description' => __( 'For perfect centering, consider setting the Extra top padding setting to 0 when enabling this setting.', 'so-widgets-bundle' ),
+					),
+
 					'padding' => array(
 						'type' => 'measurement',
 						'label' => __('Top and bottom padding', 'so-widgets-bundle'),
@@ -209,6 +218,7 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 					'heading_size' => array(
 						'type' => 'measurement',
 						'label' => __('Heading size', 'so-widgets-bundle'),
+						'description' => __( 'Enter the h1 font size. h2 - h6 will be proportionally sized based on this value.', 'so-widgets-bundle' ),
 						'default' => '38px',
 					),
 
@@ -228,8 +238,8 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 
 					'fittext_compressor' => array(
 						'type' => 'number',
-						'label' => __( 'FitText Compressor Strength', 'so-widgets-bundle' ),
-						'description' => __( 'The lower the value, the more your headings will be scaled down. Values above 1 are allowed.', 'so-widgets-bundle' ),
+						'label' => __( 'FitText compressor strength', 'so-widgets-bundle' ),
+						'description' => __( 'The higher the value, the more your headings will be scaled down. Values above 1 are allowed.', 'so-widgets-bundle' ),
 						'default' => 0.85,
 						'state_handler' => array(
 							'use_fittext[show]' => array( 'show' ),
@@ -276,7 +286,7 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 
 					'link_color_hover' => array(
 						'type' => 'color',
-						'label' => __( 'Link Hover Color', 'so-widgets-bundle' )
+						'label' => __( 'Link hover color', 'so-widgets-bundle' )
 					),
 
 				)
@@ -371,6 +381,10 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 	function get_less_variables($instance) {
 		$less = array();
 
+		if ( empty( $instance ) ) {
+			return $less;
+		}
+
 		// Slider navigation controls
 		$less['nav_color_hex'] = $instance['controls']['nav_color_hex'];
 		$less['nav_size'] = $instance['controls']['nav_size'];
@@ -392,6 +406,8 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 		foreach ( $meas_options as $key => $val ) {
 			$less[ $key ] = $this->add_default_measurement_unit( $val );
 		}
+
+		$less['vertically_align'] = empty( $instance['design']['vertically_align'] ) ? 'false' : 'true';
 
 		$less['heading_shadow'] = intval( $instance['design']['heading_shadow'] );
 		$less['heading_color'] = $instance['design']['heading_color'];
@@ -420,21 +436,10 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 		$global_settings = $this->get_global_settings();
 
 		if ( ! empty( $global_settings['responsive_breakpoint'] ) ) {
-			$less_vars['responsive_breakpoint'] = $global_settings['responsive_breakpoint'];
+			$less['responsive_breakpoint'] = $global_settings['responsive_breakpoint'];
 		}
 
 		return $less;
-	}
-
-	function get_settings_form() {
-		return array(
-			'responsive_breakpoint' => array(
-				'type'        => 'measurement',
-				'label'       => __( 'Responsive Breakpoint', 'so-widgets-bundle' ),
-				'default'     => '780px',
-				'description' => __( 'This setting controls when the Hero widget will switch to the responsive height for slides. This breakpoint will only be used if a responsive height is set in the hero settings. The default value is 780px', 'so-widgets-bundle' )
-			)
-		);
 	}
 
 	function add_default_measurement_unit($val) {
@@ -464,7 +469,6 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 	function wrapper_class_filter( $classes, $instance ){
 		if( ! empty( $instance['design']['fittext'] ) ) {
 			$classes[] = 'so-widget-fittext-wrapper';
-			wp_enqueue_script( 'sowb-fittext' );
 		}
 		return $classes;
 	}
@@ -475,7 +479,12 @@ class SiteOrigin_Widget_Hero_Widget extends SiteOrigin_Widget_Base_Slider {
 		}
 		return $data;
 	}
-
+	
+	function enqueue_widget_scripts( $instance ) {
+		if( ! empty( $instance['design']['fittext'] ) || $this->is_preview( $instance ) ) {
+			wp_enqueue_script( 'sowb-fittext' );
+		}
+	}
 }
 
 siteorigin_widget_register('sow-hero', __FILE__, 'SiteOrigin_Widget_Hero_Widget');

@@ -9,6 +9,26 @@
 
 function lz_charity_welfare_customize_register( $wp_customize ) {
 
+	$wp_customize->add_setting('lz_charity_welfare_show_site_title',array(
+       'default' => true,
+       'sanitize_callback'	=> 'sanitize_text_field'
+    ));
+    $wp_customize->add_control('lz_charity_welfare_show_site_title',array(
+       'type' => 'checkbox',
+       'label' => __('Show / Hide Site Title','lz-charity-welfare'),
+       'section' => 'title_tagline'
+    ));
+
+    $wp_customize->add_setting('lz_charity_welfare_show_tagline',array(
+       'default' => true,
+       'sanitize_callback'	=> 'sanitize_text_field'
+    ));
+    $wp_customize->add_control('lz_charity_welfare_show_tagline',array(
+       'type' => 'checkbox',
+       'label' => __('Show / Hide Site Tagline','lz-charity-welfare'),
+       'section' => 'title_tagline'
+    ));
+
 	$wp_customize->add_panel( 'lz_charity_welfare_panel_id', array(
 	    'priority' => 10,
 	    'capability' => 'edit_theme_options',
@@ -84,17 +104,6 @@ function lz_charity_welfare_customize_register( $wp_customize ) {
 		'type'	=> 'url'
 	));
 
-	$wp_customize->add_setting('lz_charity_welfare_google_plus_url',array(
-		'default'	=> '',
-		'sanitize_callback'	=> 'esc_url_raw'
-	));	
-	$wp_customize->add_control('lz_charity_welfare_google_plus_url',array(
-		'label'	=> __('Add Google Plus link','lz-charity-welfare'),
-		'section'	=> 'lz_charity_welfare_topbar_header',
-		'setting'	=> 'lz_charity_welfare_google_plus_url',
-		'type'	=> 'url'
-	));
-
 	$wp_customize->add_setting('lz_charity_welfare_insta_url',array(
 		'default'	=> '',
 		'sanitize_callback'	=> 'esc_url_raw'
@@ -142,6 +151,16 @@ function lz_charity_welfare_customize_register( $wp_customize ) {
 		'priority'   => null,
 		'panel' => 'lz_charity_welfare_panel_id'
 	) );
+
+	$wp_customize->add_setting('lz_charity_welfare_slider_hide_show',array(
+       	'default' => 'true',
+       	'sanitize_callback'	=> 'sanitize_text_field'
+	));
+	$wp_customize->add_control('lz_charity_welfare_slider_hide_show',array(
+	   	'type' => 'checkbox',
+	   	'label' => __('Show / Hide slider','lz-charity-welfare'),
+	   	'section' => 'lz_charity_welfare_slider_section',
+	));
 
 	for ( $count = 1; $count <= 4; $count++ ) {
 

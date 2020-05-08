@@ -90,9 +90,9 @@ function wplook_customize_register( $wp_customize ) {
 
 	// Activate Home page Slider
 	$wp_customize->add_setting( 'wplook_activate_homepage_slider', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -384,10 +384,10 @@ function wplook_customize_register( $wp_customize ) {
 	============================================================*/
 	// #1 Homepage widget area
 	$wp_customize->add_setting( 'wplook_first_front_widget_size', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'default' => 'grid_12',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'default' => 'grid_12',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -408,10 +408,10 @@ function wplook_customize_register( $wp_customize ) {
 
 	// #2 Homepage widget area
 	$wp_customize->add_setting( 'wplook_second_front_widget_size', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'default' => 'grid_4',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'default' => 'grid_4',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -432,10 +432,10 @@ function wplook_customize_register( $wp_customize ) {
 
 	// #3 Homepage widget area
 	$wp_customize->add_setting( 'wplook_third_front_widget_size', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'default' => 'grid_16',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'default' => 'grid_16',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -455,10 +455,10 @@ function wplook_customize_register( $wp_customize ) {
 
 	// #4 Homepage widget area
 	$wp_customize->add_setting( 'wplook_forth_front_widget_size', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'default' => 'grid_16',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'default' => 'grid_16',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -483,9 +483,9 @@ function wplook_customize_register( $wp_customize ) {
 	============================================================*/
 	// Display Breadcrumb
 	$wp_customize->add_setting( 'wplook_breadcrumb', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -507,9 +507,9 @@ function wplook_customize_register( $wp_customize ) {
 	============================================================*/
 	// Date on Blog/Archive template
 	$wp_customize->add_setting( 'wplook_date_blog_post', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -527,9 +527,9 @@ function wplook_customize_register( $wp_customize ) {
 
 	// Date on Blog/Archive template
 	$wp_customize->add_setting( 'wplook_author_blog_post', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -548,9 +548,9 @@ function wplook_customize_register( $wp_customize ) {
 
 	// Date on single post
 	$wp_customize->add_setting( 'wplook_date_single_post', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -568,9 +568,9 @@ function wplook_customize_register( $wp_customize ) {
 
 	// Author on single post
 	$wp_customize->add_setting( 'wplook_author_single_post', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -588,9 +588,9 @@ function wplook_customize_register( $wp_customize ) {
 
 	// Category on single post
 	$wp_customize->add_setting( 'wplook_category_single_post', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -635,7 +635,7 @@ function wplook_customize_register( $wp_customize ) {
 			'section' 		=> 'wplook_toolbar_settings',
 		)
 	);
-	
+
 	// Contact Page Link
 	$wp_customize->add_setting( 'wplook_contacturl', array(
 			'sanitize_callback' => 'absint',
@@ -677,9 +677,9 @@ function wplook_customize_register( $wp_customize ) {
 
 	// Display search icon
 	$wp_customize->add_setting( 'wplook_Search_button', array(
-	    'type'           => 'theme_mod',
-	    'capability'     => 'edit_theme_options',
-	    'sanitize_callback' => 'sanitize_choices',
+		'type'           => 'theme_mod',
+		'capability'     => 'edit_theme_options',
+		'sanitize_callback' => 'sanitize_choices',
 	) );
 
 
@@ -738,22 +738,22 @@ function wplook_customize_register( $wp_customize ) {
 		More Info
 	============================================================*/
 	$wp_customize->add_section( 'wplook_more_settings',  array(
-			'title'      => __( 'More', 'charitas-lite' ),
+			'title'      => __( '.:| More |:.', 'charitas-lite' ),
 			'priority'   => 999,
 		)
 	);
 
 
 	function sanitize_choices( $input, $setting ) {
-	    global $wp_customize;
-	 
-	    $control = $wp_customize->get_control( $setting->id );
-	 
-	    if ( array_key_exists( $input, $control->choices ) ) {
-	        return $input;
-	    } else {
-	        return $setting->default;
-	    }
+		global $wp_customize;
+
+		$control = $wp_customize->get_control( $setting->id );
+
+		if ( array_key_exists( $input, $control->choices ) ) {
+			return $input;
+		} else {
+			return $setting->default;
+		}
 	}
 
 	/*------------------------------------------------------------

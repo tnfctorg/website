@@ -17,18 +17,18 @@
 			<?php if ( get_theme_mod('wplook_breadcrumb') != 'no' ){ ?>
 				<div class="grid_6">
 					<div id="rootline">
-						<?php charitas_breadcrumbs(); ?>	
+						<?php charitas_breadcrumbs(); ?>
 					</div>
 				</div>
 			<?php } ?>
 			<div class="clear"></div>
 		</div>
 	</div>
-	
+
 	<div id="main" class="site-main container_16">
 		<div class="inner">
 			<div id="primary" class="grid_11 suffix_1">
-				
+
 			<?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 					<?php the_content(); ?>
 				<?php endwhile; // end of the loop. ?>

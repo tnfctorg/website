@@ -12,4 +12,4 @@
 		<?php if ( ! dynamic_sidebar( 'contact-1' ) ) : ?>
 		<?php endif; // end sidebar widget area ?>
 	</div>
-<?php endif; ?>	
+<?php endif; ?>

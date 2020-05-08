@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Register widget areas.
  *
@@ -23,7 +23,7 @@ function wplook_widgets_init() {
 	/*-----------------------------------------------------------
 		Home page Widget area
 	-----------------------------------------------------------*/
-	
+
 	register_sidebar( array(
 		'name' => __( 'First Home Page Widget area', 'charitas-lite' ),
 		'id' => 'front-1',
@@ -68,7 +68,7 @@ function wplook_widgets_init() {
 	/*-----------------------------------------------------------
 		Pages widget area
 	-----------------------------------------------------------*/
-	
+
 	register_sidebar( array(
 		'name' => __( 'Page Widget area', 'charitas-lite' ),
 		'id' => 'page-1',
@@ -78,12 +78,12 @@ function wplook_widgets_init() {
 		'before_title' => '<div class="widget-title"><h3>',
 		'after_title' => '</h3><div class="clear"></div></div>'
 	) );
-	
+
 
 	/*-----------------------------------------------------------
 		Posts Widget area
 	-----------------------------------------------------------*/
-	
+
 	register_sidebar( array(
 		'name' => __( 'Press/Blog Widget area', 'charitas-lite' ),
 		'id' => 'post-1',
@@ -98,7 +98,7 @@ function wplook_widgets_init() {
 	/*-----------------------------------------------------------
 		Contact page Widget area
 	-----------------------------------------------------------*/
-	
+
 	register_sidebar( array(
 		'name' => __( 'Contact Page Widget area', 'charitas-lite' ),
 		'id' => 'contact-1',
@@ -108,6 +108,23 @@ function wplook_widgets_init() {
 		'before_title' => '<div class="widget-title"><h3>',
 		'after_title' => '</h3><div class="clear"></div></div>'
 	) );
+
+
+	/*-----------------------------------------------------------
+		Shop widget area
+	-----------------------------------------------------------*/
+
+	if( class_exists( 'WooCommerce' ) ) {
+		register_sidebar( array(
+			'name' => __( 'Shop Widget area', 'charitas-lite' ),
+			'id' => 'shop',
+			'description' => __('Widgets in this area will be shown on all WooCommerce shop pages.','charitas-lite' ),
+			'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+			'after_widget' => "</aside>",
+			'before_title' => '<div class="widget-title"><h3>',
+			'after_title' => '</h3><div class="clear"></div></div>'
+		) );
+	}
 
 
 	/*-----------------------------------------------------------

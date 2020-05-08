@@ -8,14 +8,14 @@
  * Author URI: https://www.wplook.com
 */
 
-add_action('widgets_init', create_function('', 'return register_widget("wplook_posts_widget");'));
+add_action('widgets_init', function(){return register_widget("wplook_posts_widget");});
 class wplook_posts_widget extends WP_Widget {
 
-	
+
 	/*-----------------------------------------------------------------------------------*/
 	/*	Widget actual processes
 	/*-----------------------------------------------------------------------------------*/
-	
+
 	public function __construct() {
 		parent::__construct(
 	 		'wplook_posts_widget',
@@ -24,17 +24,17 @@ class wplook_posts_widget extends WP_Widget {
 		);
 	}
 
-	
+
 	/*-----------------------------------------------------------------------------------*/
 	/*	Outputs the options form on admin
 	/*-----------------------------------------------------------------------------------*/
-	
+
 	public function form( $instance ) {
 		if ( $instance ) {
 			$title = esc_attr( $instance[ 'title' ] );
 		}
 		else {
-			$title = __( 'Postst', 'charitas-lite' );
+			$title = __( 'Posts', 'charitas-lite' );
 		}
 
 		if ( $instance ) {
@@ -42,7 +42,7 @@ class wplook_posts_widget extends WP_Widget {
 		}
 		else {
 			$categories = __( 'All', 'charitas-lite' );
-		} 
+		}
 
 		if ( $instance ) {
 			$nr_posts = esc_attr( $instance[ 'nr_posts' ] );
@@ -76,19 +76,19 @@ class wplook_posts_widget extends WP_Widget {
 					<?php _e('Category:', 'charitas-lite'); ?>
 					<br />
 				</label>
-				
+
 				<?php wp_dropdown_categories(
-					array( 
+					array(
 						'name'	=> $this->get_field_name("categories"),
 						'show_option_all'    => __('All', 'charitas-lite'),
 						'show_count'	=> 1,
 						'selected' => $categories,
-						'taxonomy'  => 'category' 
-					) 
+						'taxonomy'  => 'category'
+					)
 				); ?>
-				
+
 			</p>
-			
+
 			<p>
 				<label for="<?php echo $this->get_field_id('nr_posts'); ?>"> <?php _e('Number of Posts:', 'charitas-lite'); ?> </label>
 				<input class="widefat" id="<?php echo $this->get_field_id('nr_posts'); ?>" name="<?php echo $this->get_field_name('nr_posts'); ?>" type="text" value="<?php echo $nr_posts; ?>" />
@@ -114,14 +114,14 @@ class wplook_posts_widget extends WP_Widget {
 
 			</p>
 
-		<?php 
+		<?php
 	}
-	
+
 
 	/*-----------------------------------------------------------------------------------*/
 	/*	Processes widget options to be saved
 	/*-----------------------------------------------------------------------------------*/
-	
+
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = sanitize_text_field($new_instance['title']);
@@ -145,7 +145,7 @@ class wplook_posts_widget extends WP_Widget {
 		$read_more_link = apply_filters( 'widget', $instance['read_more_link'] );
 		$clear_after = apply_filters('widget_clear_after', $instance['clear_after']);
 		?>
-		
+
 		<?php
 
 			if ( $categories < '1' ) {
@@ -170,17 +170,17 @@ class wplook_posts_widget extends WP_Widget {
 		?>
 
 			<?php if( $posts->have_posts() ) : ?>
-			
-				<aside class="widget WPlookPosts">	
+
+				<aside class="widget WPlookPosts">
 					<div class="widget-title">
 						<h3><?php echo $title ?></h3>
 						<?php if ( $read_more_link != "") { ?>
 							<div class="viewall fright"><a href="<?php echo $read_more_link; ?>" class="radius" title="<?php _e('View all posts', 'charitas-lite'); ?>"><?php _e('view all', 'charitas-lite'); ?></a></div>
 						<?php } ?>
-						
+
 						<div class="clear"></div>
 					</div>
-					
+
 					<div class="widget-causes-body">
 
 						<?php while( $posts->have_posts() ) : $posts->the_post(); ?>

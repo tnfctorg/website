@@ -25,21 +25,23 @@ if ( post_password_required() ) {
 		<h2 class="comments-title">
 			<?php
 				$comments_number = get_comments_number();
-				if ( 1 === $comments_number ) {
+				if ( '1' === $comments_number ) {
 					/* translators: %s: post title */
-					printf( esc_html__( 'One thought on &ldquo;%s&rdquo;','vw-charity-ngo' ), get_the_title() );
+					printf( esc_html__( 'One thought on &ldquo;%s&rdquo;', 'vw-charity-ngo' ), esc_html (get_the_title()) );
 				} else {
 					printf(
-						/* translators: 1: number of comments, 2: post title */
-						esc_html( 
-			                '%1$s thought on &ldquo;%2$s&rdquo;',
-			                '%1$s thoughts on &ldquo;%2$s&rdquo;',
-			                $comments_number,
-			                'comments title',
-			                'vw-charity-ngo'
-			            ),
-						esc_html (number_format_i18n( $comments_number ) ),
-		            	get_the_title()
+					   	esc_html(
+					      	/* translators: 1: number of comments, 2: post title */
+					     	_nx( 
+					          	'%1$s thought on &ldquo;%2$s&rdquo;',
+					          	'%1$s thoughts on &ldquo;%2$s&rdquo;',
+					          	$comments_number,
+					          	'comments title',
+					          	'vw-charity-ngo'
+					       	)
+					   	),
+					   	esc_html (number_format_i18n( $comments_number ) ),
+					   	esc_html (get_the_title())
 					);
 				}
 			?>

@@ -10,7 +10,7 @@
 ?>
 
 <section class="no-results not-found">
-	<header class="page-header">
+	<header role="banner" class="page-header">
 		<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'lz-charity-welfare' ); ?></h1>
 	</header>
 	<div class="page-content">

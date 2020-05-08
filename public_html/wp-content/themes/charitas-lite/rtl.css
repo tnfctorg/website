@@ -152,12 +152,12 @@ figure:hover .mask-square {
 	float:right;
 }
 
-.grid_8  .WPlookStaff .grid_4 { 
-	float: right; 
+.grid_8  .WPlookStaff .grid_4 {
+	float: right;
 }
 
-.grid_12 .WPlookStaff .grid_4 { 
-	float: right; 
+.grid_12 .WPlookStaff .grid_4 {
+	float: right;
 	margin: 12px 1.27314815%;
 }
 
@@ -228,23 +228,23 @@ img.alignright {
 }
 
 .widget-causes-body .cause-item {
-	float: right; 
+	float: right;
 }
 
-.grid_12 .widget-causes-body .cause-item { 
-	float: right; 
+.grid_12 .widget-causes-body .cause-item {
+	float: right;
 }
 
-.grid_8  .widget-causes-body .cause-item { 
-	float: right; 
+.grid_8  .widget-causes-body .cause-item {
+	float: right;
 }
 
 .widget-event-body .event-item {
 	float: right;
 }
 
-.grid_12 .widget-event-body .event-item { 
-	float: right; 
+.grid_12 .widget-event-body .event-item {
+	float: right;
 }
 
 .grid_8 .widget-event-body .event-item {
@@ -260,7 +260,7 @@ img.alignright {
 }
 
 .flexslider-gallery .flex-direction-nav .flex-next {
-	background-position: 0 100%; 
+	background-position: 0 100%;
 }
 
 .flexslider-gallery .flex-direction-nav .flex-prev {
@@ -280,13 +280,13 @@ img.alignright {
 }
 
 
-#flexslider-gallery-carousel .flex-direction-nav a { 
-	z-index: -10;  
-	text-indent: 9999px; 
+#flexslider-gallery-carousel .flex-direction-nav a {
+	z-index: -10;
+	text-indent: 9999px;
 }
 
 #flexslider-gallery-carousel .flex-direction-nav .flex-next {
-	background-position: 0 100%; 
+	background-position: 0 100%;
 	left: 0px;
 }
 
@@ -294,21 +294,21 @@ img.alignright {
 	right: 0px;
 }
 
-#flexslider-gallery-carousel .flexslider:hover .flex-next { 
+#flexslider-gallery-carousel .flexslider:hover .flex-next {
 	left: 0px;
 }
 
-#flexslider-gallery-carousel .flexslider:hover .flex-prev { 
+#flexslider-gallery-carousel .flexslider:hover .flex-prev {
 	right: 0px;
 }
 
 .latestnews-body .flex-direction-nav a {
-	z-index: -10; 
-	text-indent: 9999px; 
+	z-index: -10;
+	text-indent: 9999px;
 }
 
 .latestnews-body .flex-direction-nav .flex-next {
-	background-position: 0 100%; 
+	background-position: 0 100%;
 }
 
 .flexslider-news .flex-button-red i {
@@ -323,7 +323,7 @@ img.alignright {
 	padding: 0 20px 0 0;
 }
 
-i span { 
+i span {
 	margin-right: 6px;
 }
 

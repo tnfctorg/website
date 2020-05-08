@@ -11,16 +11,16 @@
 <?php if ( have_posts() ) : ?>
 
 	<?php while ( have_posts() ) : the_post(); ?>
-	
+
 		<article id="post-<?php the_ID(); ?>" <?php post_class("single"); ?>>
-						
+
 			<div class="entry-content">
 				<?php if(has_post_thumbnail()) { ?>
 					<figure>
 						<?php the_post_thumbnail('charitas-lite-big-thumb'); ?>
-					</figure> 
+					</figure>
 				<?php } ?>
-				
+
 				<div class="clear"></div>
 
 				<div class="long-description">
@@ -28,9 +28,9 @@
 					<?php wp_link_pages( array( 'before' => '<div class="clear"></div><div class="page-link"><span>' . __( 'Pages:', 'charitas-lite' ) . '</span>', 'after' => '</div>' ) ); ?>
 				</div>
 
-				
+
 				<div class="clear"></div>
-				
+
 				<div class="entry-meta-press">
 
 					<!-- Date -->
@@ -39,7 +39,7 @@
 							<i class="icon-calendar"></i> <?php esc_html(charitas_get_date_time()); ?>
 						</time>
 					<?php } ?>
-					
+
 					<!-- Category -->
 					<?php if ( get_theme_mod('wplook_category_single_post') !='off' ){  ?>
 						<div class="category-i fleft">
@@ -49,8 +49,8 @@
 
 
 					<?php if ( get_the_tag_list( '', ', ' ) ) { ?>
-						<div class="tag-i fleft"> 
-							<i class="icon-tags"></i> <a href="#" rel="tag"><?php echo get_the_tag_list('',', ',''); ?></a> 
+						<div class="tag-i fleft">
+							<i class="icon-tags"></i> <a href="#" rel="tag"><?php echo get_the_tag_list('',', ',''); ?></a>
 						</div>
 					<?php } ?>
 
@@ -66,9 +66,9 @@
 			</div>
 
 			<div class="clear"></div>
-					
+
 		</article>
-	
+
 <?php endwhile;  endif; ?>
 
 <?php comments_template( '', true ); ?>

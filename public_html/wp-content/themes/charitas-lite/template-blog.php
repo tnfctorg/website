@@ -18,20 +18,20 @@
 			<?php if ( get_theme_mod('wplook_breadcrumb') != 'no' ){ ?>
 				<div class="grid_6">
 					<div id="rootline">
-						<?php charitas_breadcrumbs(); ?>	
+						<?php charitas_breadcrumbs(); ?>
 					</div>
 				</div>
 			<?php } ?>
 			<div class="clear"></div>
 		</div>
 	</div>
-	
+
 	<div id="main" class="site-main container_16">
 		<div class="inner">
 			<div id="primary" class="grid_11 suffix_1">
 				<?php get_template_part('loop', 'blog' ) ; ?>
 			</div>
-	
+
 			<?php get_sidebar(); ?>
 			<div class="clear"></div>
 		</div>

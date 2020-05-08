@@ -11,7 +11,7 @@ get_header(); ?>
 
 <div class="container">
 
-	<header class="page-header">
+	<header role="banner" class="page-header">
 		<?php if ( have_posts() ) : ?>
 			<h1 class="search-title"><?php /* translators: %s: search term */ printf( esc_html__( 'Search Results for: %s','lz-charity-welfare'), '<span>' . esc_html( get_search_query() ) . '</span>' ); ?></h1>
 		<?php else : ?>
@@ -20,13 +20,13 @@ get_header(); ?>
 	</header>
 
 	<div class="content-area">
-		<main id="main" class="site-main" role="main">
+		<main id="content" class="site-main" role="main">
 			<?php
 			    $layout_option = get_theme_mod( 'lz_charity_welfare_theme_options',__( 'Right Sidebar','lz-charity-welfare' ) );
 			    if($layout_option == 'Left Sidebar'){ ?>
 			    	<div class="row">
-				        <div id="sidebar" class="col-md-4 col-sm-4"><?php dynamic_sidebar('sidebar-1'); ?></div>
-				        <div id="" class="content_area col-md-8 col-sm-8">
+				        <div id="sidebar" class="col-lg-4 col-md-4"><?php dynamic_sidebar('sidebar-1'); ?></div>
+				        <div id="" class="content_area col-lg-8 col-md-8">
 					    	<section id="post_section">
 								<?php
 								if ( have_posts() ) :
@@ -62,7 +62,7 @@ get_header(); ?>
 					</div>
 			<?php }else if($layout_option == 'Right Sidebar'){ ?>
 				<div class="row">
-					<div id="" class="content_area col-md-8 col-sm-8">
+					<div id="" class="content_area col-lg-8 col-md-8">
 						<section id="post_section">
 							<?php
 							if ( have_posts() ) :
@@ -94,7 +94,7 @@ get_header(); ?>
 				            </div>
 						</section>
 					</div>
-					<div id="sidebar" class="col-md-4 col-sm-4"><?php dynamic_sidebar('sidebar-2'); ?>						
+					<div id="sidebar" class="col-lg-4 col-md-4"><?php dynamic_sidebar('sidebar-2'); ?>						
 					</div>
 				</div>
 			<?php }else if($layout_option == 'One Column'){ ?>
@@ -132,8 +132,8 @@ get_header(); ?>
 					</div>
 			<?php }else if($layout_option == 'Three Columns'){ ?>	
 					<div class="row">
-						<div id="sidebar" class="col-md-3"><?php dynamic_sidebar('sidebar-1'); ?></div>	
-						<div id="" class="content_area col-md-6 col-sm-6">
+						<div id="sidebar" class="col-lg-3 col-md-3"><?php dynamic_sidebar('sidebar-1'); ?></div>	
+						<div id="" class="content_area col-lg-6 col-md-6">
 							<section id="post_section">
 								<?php
 								if ( have_posts() ) :
@@ -165,13 +165,13 @@ get_header(); ?>
 					            </div>
 							</section>
 						</div>
-						<div id="sidebar" class="col-md-3"><?php dynamic_sidebar('sidebar-2'); ?>						
+						<div id="sidebar" class="col-lg-3 col-md-3"><?php dynamic_sidebar('sidebar-2'); ?>						
 						</div>
 					</div>
 			<?php }else if($layout_option == 'Four Columns'){ ?>
 				<div class="row">
-					<div id="sidebar" class="col-md-3"><?php dynamic_sidebar('sidebar-1'); ?></div>
-					<div id="" class="content_area col-md-3">
+					<div id="sidebar" class="col-lg-3 col-md-3"><?php dynamic_sidebar('sidebar-1'); ?></div>
+					<div id="" class="content_area col-lg-3 col-md-3">
 						<section id="post_section">
 							<?php
 							if ( have_posts() ) :
@@ -203,12 +203,12 @@ get_header(); ?>
 				            </div>
 						</section>
 					</div>
-					<div id="sidebar" class="col-md-3"><?php dynamic_sidebar('sidebar-2'); ?></div>
-			        <div id="sidebar" class="col-md-3"><?php dynamic_sidebar('sidebar-3'); ?></div>
+					<div id="sidebar" class="col-lg-3 col-md-3"><?php dynamic_sidebar('sidebar-2'); ?></div>
+			        <div id="sidebar" class="col-lg-3 col-md-3"><?php dynamic_sidebar('sidebar-3'); ?></div>
 		        </div>
 		    <?php }else if($layout_option == 'Grid Layout'){ ?>
 			    	<div class="row">
-				    	<div id="" class="content_area col-md-8 col-sm-8">
+				    	<div id="" class="content_area col-lg-8 col-md-8">
 							<section id="post_section">
 								<div class="row">
 									<?php
@@ -217,13 +217,14 @@ get_header(); ?>
 										/* Start the Loop */
 										while ( have_posts() ) : the_post();
 
-											get_template_part( 'template-parts/post/grid-layout', get_post_format() );
+											get_template_part( 'template-parts/post/grid-layout');
 
 										endwhile;
+										else :  ?>
 
-										else :
-
-										get_template_part( 'template-parts/post/grid-layout', 'none' );
+										<p><?php esc_html_e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'lz-charity-welfare' ); ?></p>
+										<?php
+											get_search_form();
 
 									endif;
 									?>
@@ -241,12 +242,12 @@ get_header(); ?>
 								</div>
 							</section>
 						</div>
-						<div id="sidebar" class="col-md-4 col-sm-4"><?php dynamic_sidebar('sidebar-1'); ?>						
+						<div id="sidebar" class="col-lg-4 col-md-4"><?php dynamic_sidebar('sidebar-1'); ?>						
 						</div>	
 					</div>	
 			<?php } else { ?>
 				<div class="row">
-					<div id="" class="content_area col-md-8 col-sm-8">
+					<div id="" class="content_area col-lg-8 col-md-8">
 						<section id="post_section">
 							<?php
 							if ( have_posts() ) :
@@ -255,9 +256,11 @@ get_header(); ?>
 
 									get_template_part( 'template-parts/post/content' );
 								endwhile;
-								else :
+								else : ?>
 
-									get_template_part( 'template-parts/post/content', 'none' );
+									<p><?php esc_html_e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'lz-charity-welfare' ); ?></p>
+									<?php
+										get_search_form();
 								endif;
 							?>
 							<div class="navigation">
@@ -273,7 +276,7 @@ get_header(); ?>
 				            </div>
 						</section>
 					</div>
-					<div id="sidebar" class="col-md-4 col-sm-4"><?php dynamic_sidebar('sidebar-1'); ?>
+					<div id="sidebar" class="col-lg-4 col-md-4"><?php dynamic_sidebar('sidebar-1'); ?>
 					</div>
 				</div>
 			<?php } ?>

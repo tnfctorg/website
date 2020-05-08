@@ -1,44 +1,44 @@
+function vw_charity_ngo_menu_open_nav() {
+	document.getElementById("mySidenav").style.top ="0";
+}
+function vw_charity_ngo_menu_close_nav() {
+	document.getElementById("mySidenav").style.top = "-110%";
+}
+
+jQuery(function($){
+	"use strict";
+   	jQuery('.main-menu > ul').superfish({
+		delay:       500,
+		animation:   {opacity:'show',height:'show'},  
+		speed:       'fast'
+  	});
+});
+
 (function( $ ) {
-	// NAVIGATION CALLBACK
-	var ww = jQuery(window).width();
-	jQuery(document).ready(function() { 
-		jQuery(".nav li a").each(function() {
-			if (jQuery(this).next().length > 0) {
-				jQuery(this).addClass("parent");
-			};
-		})
-		jQuery(".toggleMenu").click(function(e) { 
-			e.preventDefault();
-			jQuery(this).toggleClass("active");
-			jQuery(".nav").slideToggle('fast');
-		});
-		adjustMenu();
+	jQuery(window).load(function() {
+	    jQuery("#status").fadeOut();
+	    jQuery("#preloader").delay(1000).fadeOut("slow");
 	})
+	$(window).scroll(function(){
+		var sticky = $('.header-sticky'),
+  			scroll = $(window).scrollTop();
 
-	// navigation orientation resize callbak
-	jQuery(window).bind('resize orientationchange', function() {
-		ww = jQuery(window).width();
-		adjustMenu();
+		if (scroll >= 100) sticky.addClass('header-fixed');
+		else sticky.removeClass('header-fixed');
 	});
-
-	var adjustMenu = function() {
-		if (ww < 720) {
-			jQuery(".toggleMenu").css("display", "block");
-			if (!jQuery(".toggleMenu").hasClass("active")) {
-				jQuery(".nav").hide();
-			} else {
-				jQuery(".nav").show();
-			}
-			jQuery(".nav li").unbind('mouseenter mouseleave');
-		} else {
-			jQuery(".toggleMenu").css("display", "none");
-			jQuery(".nav").show();
-			jQuery(".nav li").removeClass("hover");
-			jQuery(".nav li a").unbind('click');
-			jQuery(".nav li").unbind('mouseenter mouseleave').bind('mouseenter mouseleave', function() {
-				jQuery(this).toggleClass('hover');
-			});
-		}
-	}
-	
+	$(document).ready(function () {
+		$(window).scroll(function () {
+		    if ($(this).scrollTop() > 100) {
+		        $('.scrollup i').fadeIn();
+		    } else {
+		        $('.scrollup i').fadeOut();
+		    }
+		});
+		$('.scrollup i').click(function () {
+		    $("html, body").animate({
+		        scrollTop: 0
+		    }, 600);
+		    return false;
+		});
+	});	
 })( jQuery );

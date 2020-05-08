@@ -1,19 +1,20 @@
 === LZ Charity Welfare ===
-
-Theme URI: https://www.luzuk.com/themes/free-charity-wordpress-theme/
-Author: Luzuk
-Author URI: https://www.luzuk.com/
-Version: 0.1
-Tested up to: WordPress 4.9.8
+Contributors: Luzuk
+Tags: one-column, two-columns, right-sidebar, left-sidebar, grid-layout, custom-colors, custom-background, custom-header, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, rtl-language-support, full-width-template, threaded-comments, translation-ready, blog, e-commerce , news
+Requires at least: 5.0
+Tested up to: 5.3.2
+Requires PHP: 7.2.14
+Stable tag: 0.3.1
 License: GNU General Public License v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
-Tags: one-column, two-columns, right-sidebar, left-sidebar, grid-layout, custom-colors, custom-background, custom-header, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, rtl-language-support, full-width-template, threaded-comments, translation-ready, blog, e-commerce , news
+
+LZ Charity Welfare is an inviting, manageable, creative and beautiful charity WordPress theme with a professional inclination. It is a perfect fit for charity, non-profit organization, NGO, donation camp, fundraising event, political campaign, volunteering organization and welfare committee who are working for some cause.
 
 == Description ==
 
-	LZ Charity Welfare is an inviting, manageable, creative and beautiful charity WordPress theme with a professional inclination. It is a perfect fit for charity, non-profit organization, NGO, donation camp, fundraising event, political campaign, volunteering organization and welfare committee who are working for some cause. The theme’s design is thoughtfully made interactive to encourage people and evoke their interest in joining hands for a good cause. It is a responsive theme which will make your website accessible on any device. This charity WP theme is cross-browser compatible and follows standard design pattern for good SEO. It being translation ready and compatible with WPML plugin can build up a website in your local language to make visitors feel like home. Social media icons are integrated with the design to associate maximum people to your charity and fundraising events. LZ Charity Welfare gives you all the power to customize your website to make it look as per your requirements and Bootstrap framework makes this work even easier. Banners and sliders are used to make the site more impactful without losing its modernity. Its clean and secure code ensures a bug-free website. It is feathery light to load fast on all platforms.
+LZ Charity Welfare is an inviting, manageable, creative and beautiful charity WordPress theme with a professional inclination. It is a perfect fit for charity, non-profit organization, NGO, donation camp, fundraising event, political campaign, volunteering organization and welfare committee who are working for some cause. The theme’s design is thoughtfully made interactive to encourage people and evoke their interest in joining hands for a good cause. It is a responsive theme which will make your website accessible on any device. This charity WP theme is cross-browser compatible and follows standard design pattern for good SEO. It being translation ready and compatible with WPML plugin can build up a website in your local language to make visitors feel like home. Social media icons are integrated with the design to associate maximum people to your charity and fundraising events. LZ Charity Welfare gives you all the power to customize your website to make it look as per your requirements and Bootstrap framework makes this work even easier. Banners and sliders are used to make the site more impactful without losing its modernity. Its clean and secure code ensures a bug-free website. It is feathery light to load fast on all platforms.
 
-== Copyright ==
+== Resources ==
 
 LZ Charity Welfare WordPress Theme, Copyright 2018 Luzuk
 LZ Charity Welfare is distributed under the terms of the GNU GPL
@@ -33,70 +34,70 @@ Twenty Seventeen WordPress Theme is distributed under the terms of the GNU GPL
 
 LZ Charity Welfare bundles the following third-party resources:
 
-CSS bootstrap.css
-Code and documentation copyright 2011-2016 Twitter, Inc. Code released under the MIT license. Docs released under Creative Commons.
+* Bootstrap
+  - Mark Otto and Jacob Thornton
+  - copyright 2011-2018, Mark Otto and Jacob Thornton
+  - https://github.com/twbs/bootstrap/releases/download/v4.0.0/bootstrap-4.0.0-dist.zip 
+  - License: MIT License (MIT) 
+  - https://github.com/twbs/bootstrap/blob/master/LICENSE
 
-JS bootstrap.js
-Copyright 2011-2018 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-https://github.com/twbs/bootstrap/blob/master/LICENSE
+* HTML5 Shiv 
+  - Alexander Farkas
+  - Copyright 2014, Alexander Farkas
+  - https://github.com/aFarkas/html5shiv
+  - Licenses: MIT/GPL2
+  - https://github.com/aFarkas/html5shiv
 
-HTML5 Shiv, Copyright 2014 Alexander Farkas
-Licenses: MIT/GPL2
-Source: https://github.com/aFarkas/html5shiv
+* Font Awesome 
+  - Dave Gandy
+  - Copyright July 12, 2018, Dave Gandy 
+  - https://github.com/FortAwesome/Font-Awesome.git
+  - License: Font Awesome Free 5.0.6
+  - http://fontawesome.com/license
 
-Font Awesome icons, Copyright Dave Gandy
-License: SIL Open Font License, version 1.1.
-Source: http://fontawesome.io/ 
+* Superfish 
+  - Joeldbirch 
+  - Copyright 2013, Justin Tadlock 
+  - https://github.com/joeldbirch/superfish.git 
+  - License: Free to use and abuse under the MIT license. v1.7.9 
+  - https://github.com/joeldbirch/superfish/blob/master/MIT-LICENSE.txt
 
-Pixabay Images
-License: CC0 1.0 Universal (CC0 1.0) 
-Source: https://pixabay.com/en/service/terms/
+* Screenshot Images
+ 	Pexels Images
+	License: CC0 1.0 Universal (CC0 1.0) 
+	Source: https://www.pexels.com/photo-license/
 
-Slider image, Copyright Kimthecoach
-License: CC0 1.0 Universal (CC0 1.0)
-Source: https://pixabay.com/en/ask-for-alms-villager-africa-1742502/
+	Slider image, Copyright Suraphat Nuea-on
+	License: CC0 1.0 Universal (CC0 1.0)
+	Source: https://www.pexels.com/photo/monk-surrounded-by-children-933624/
 
-Customizer Pro
-Source: https://github.com/justintadlock/trt-customizer-pro
+* Customizer Pro
+  - Justin Tadlock 
+  - Copyright 2016, Justin Tadlock.
+  - License: All code, unless otherwise noted, is licensed under the GNU GPL, version 2 or later.
+  - https://github.com/justintadlock/trt-customizer-pro
 
-== Steps to Setup Theme ==
+== Changelog ==
 
-== Below are the following step to setup theme static page. ==
+= 0.1 =
+  - Initial Version Released.
 
-Step 1. Add new page named as "home page" and select the template "Custom Home".
+= 0.2 =
+  - Changed readme.txt file.
+  - Updated Woocommerce.
+  - Resolved css errors.
+  - Changed Navigation style.
+  - Added keyboard Navigation.
+  - Added Skip to content part.
+  - Changed Images in screenshot.
+  - Added Potfile in Language Folder.
 
-Step 2. Go to customizer >> static front page >> check Static page, then select the page which you have added example "home page".
+= 0.3 =
+  - Changed headings as per accessability.
+  - Changes done in readme.txt file.
+  - Changed some code in function.php file.
 
-== For General Settings ==
-
-Step 1. Go to customizer >> Theme Settings >> General Settings >> here you can change the layout of the blog post.
-
-== For Social Icons ==
-
-Step 1. Go to Customizer >> Theme Settings >> Social Icons >> here you can add social links.
-
-== For Contact Details ==
-
-Step 1. Go to Customizer >> Theme Settings >> Contact Details >> here you can add your contact details like contact number and email address.
-
-== For Slider ==
-
-Step 1. Add new page, add title, featured image and publish it.
-
-Step 2. Go to Customizer >> Theme Settings >> Slider Settings >> here you can select the page which you have added for displaying Slider.
-
-== For Our Services ==
-Select Category
-
-Step 1. Add new Category,  Then add new post add title, content, set featured image then publish it.
-
-Step 2. Go to customizer >> Theme Settings >> Our Services >> here you can select category to display posts.
-
-== About Author - Contact Details ==
-	
-email  :  support@luzuk.com
-
-LZ Charity Welfare version
-==========================================================
-LZ Charity Welfare version is compatible with GPL licensed.
-For any help you can mail us at support@luzuk.com
+= 0.3.1 =
+  - Resolved some theme errors.
+  - Added Show/Hide Site Title & Tagline option.
+  - Updated pot file.

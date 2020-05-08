@@ -11,14 +11,14 @@
 <?php if ( have_posts() ) : ?>
 
 	<?php while ( have_posts() ) : the_post(); ?>
-	
+
 		<article id="post-<?php the_ID(); ?>" <?php post_class("single"); ?>>
-						
+
 			<div class="entry-content">
 				<?php if(has_post_thumbnail()) { ?>
 					<figure>
 						<?php the_post_thumbnail('charitas-lite-big-thumb'); ?>
-					</figure> 
+					</figure>
 				<?php } ?>
 
 				<div class="clear"></div>
@@ -28,11 +28,11 @@
 				</div>
 
 				<div class="clear"></div>
-				
+
 			</div>
 
 			<div class="clear"></div>
-					
+
 		</article>
 		<?php comments_template( '', true ); ?>
 <?php endwhile;  endif; ?>

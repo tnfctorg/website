@@ -10,15 +10,14 @@
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+	<header role="banner" class="entry-header">
+		<?php esc_html(the_title( '<h1 class="entry-title">', '</h1>' )); ?>
 		<?php lz_charity_welfare_edit_link( get_the_ID() ); ?>
 	</header>
 	<div class="entry-content">
-		<img src="<?php the_post_thumbnail_url(); ?>">
-		<?php			
-			the_content();
-
+		<?php the_post_thumbnail(); ?>
+		<div class="text-content"><?php the_content();?></div>
+		<?php
 			wp_link_pages( array(
 				'before' => '<div class="page-links">' . __( 'Pages:', 'lz-charity-welfare' ),
 				'after'  => '</div>',

@@ -1,6 +1,6 @@
 /* globals jQuery, google, sowb */
 
-var sowb = window.sowb || {};
+window.sowb = window.sowb || {};
 
 sowb.SiteOriginGoogleMap = function($) {
 	return {
@@ -16,13 +16,18 @@ sowb.SiteOriginGoogleMap = function($) {
 			var zoom = Number(options.zoom);
 
 			if ( !zoom ) zoom = 14;
+			
+			var breakpointCheck = window.matchMedia( '(max-width: ' + options.breakpoint + 'px)' )
+			// Check if the user is viewing the map on mobile
+			if ( breakpointCheck.matches ) {
+				zoom = options.mobileZoom;
+			}
 
 			var userMapTypeId = 'user_map_style';
 
 			var mapOptions = {
 				zoom: zoom,
-				scrollwheel: options.scrollZoom,
-				draggable: options.draggable,
+				gestureHandling: options.gestureHandling,
 				disableDefaultUI: options.disableUi,
 				zoomControl: options.zoomControl,
 				panControl: options.panControl,
@@ -172,6 +177,66 @@ sowb.SiteOriginGoogleMap = function($) {
 					}
 					markerBatches[ batchIndex ][ i % BATCH_SIZE ] = markerPositions[ i ];
 				}
+				var geocodeMarker = function ( mrkr ) {
+					
+					var customIcon = mrkr.custom_marker_icon;
+					var markerInfo = mrkr.hasOwnProperty( 'info' ) ? mrkr.info : null;
+					var infoMaxWidth = mrkr.hasOwnProperty( 'info_max_width' ) ? mrkr.info_max_width : null;
+					return this.getLocation( mrkr.place ).done( function ( location ) {
+						var mrkerIcon = options.markerIcon;
+						if ( customIcon ) {
+							mrkerIcon = customIcon;
+						}
+						
+						var marker = new google.maps.Marker( {
+							position: location,
+							map: map,
+							draggable: options.markersDraggable,
+							icon: mrkerIcon,
+							title: ''
+						} );
+						
+						if ( markerInfo ) {
+							var infoWindowOptions = { content: markerInfo };
+							
+							if ( infoMaxWidth ) {
+								infoWindowOptions.maxWidth = infoMaxWidth;
+							}
+							
+							var infoDisplay = options.markerInfoDisplay;
+							infoWindowOptions.disableAutoPan = infoDisplay === 'always';
+							var infoWindow = new google.maps.InfoWindow( infoWindowOptions );
+							this.infoWindows.push( infoWindow );
+							var openEvent = infoDisplay;
+							if ( infoDisplay === 'always' ) {
+								openEvent = 'click';
+								infoWindow.open( map, marker );
+							}
+							marker.addListener( openEvent, function () {
+								infoWindow.open( map, marker );
+								if ( infoDisplay !== 'always' && !options.markerInfoMultiple ) {
+									this.infoWindows.forEach( function ( iw ) {
+										if ( iw !== infoWindow ) {
+											iw.close();
+										}
+									} );
+								}
+							}.bind( this ) );
+							if ( infoDisplay === 'mouseover' ) {
+								marker.addListener( 'mouseout', function () {
+									setTimeout( function () {
+										infoWindow.close();
+									}, 100 );
+								} );
+							}
+						}
+					}.bind( this ) )
+					.fail( function ( errorStatus ) {
+						overQuota = errorStatus === google.maps.GeocoderStatus.OVER_QUERY_LIMIT;
+						console.log( errorStatus );
+					} );
+				}.bind( this );
+				
 				var overQuota = false;
 				var geocodeMarkerBatch = function ( markerBatchHead, markerBatchTail ) {
 					var doneCount = 0;
@@ -180,63 +245,14 @@ sowb.SiteOriginGoogleMap = function($) {
 						if ( overQuota ) {
 							break;
 						}
-						var mrkr = markerBatchHead[ i ];
-						this.getLocation( mrkr.place ).done( function ( location ) {
-							var mrkerIcon = options.markerIcon;
-							if ( mrkr.custom_marker_icon ) {
-								mrkerIcon = mrkr.custom_marker_icon;
-							}
-							
-							var marker = new google.maps.Marker( {
-								position: location,
-								map: map,
-								draggable: options.markersDraggable,
-								icon: mrkerIcon,
-								title: ''
-							} );
-							
-							if ( mrkr.hasOwnProperty( 'info' ) && mrkr.info ) {
-								var infoWindowOptions = { content: mrkr.info };
-								
-								if ( mrkr.hasOwnProperty( 'info_max_width' ) && mrkr.info_max_width ) {
-									infoWindowOptions.maxWidth = mrkr.info_max_width;
-								}
-								
-								var infoDisplay = options.markerInfoDisplay;
-								infoWindowOptions.disableAutoPan = infoDisplay === 'always';
-								var infoWindow = new google.maps.InfoWindow( infoWindowOptions );
-								this.infoWindows.push( infoWindow );
-								var openEvent = infoDisplay;
-								if ( infoDisplay === 'always' ) {
-									openEvent = 'click';
-									infoWindow.open( map, marker );
-								}
-								marker.addListener( openEvent, function () {
-									infoWindow.open( map, marker );
-									if ( infoDisplay !== 'always' && !options.markerInfoMultiple ) {
-										this.infoWindows.forEach( function ( iw ) {
-											if ( iw !== infoWindow ) {
-												iw.close();
-											}
-										} );
-									}
-								}.bind( this ) );
-								if ( infoDisplay === 'mouseover' ) {
-									marker.addListener( 'mouseout', function () {
-										setTimeout( function () {
-											infoWindow.close();
-										}, 100 );
-									} );
+						geocodeMarker( markerBatchHead[ i ] ).then(
+							function () {
+								if ( ++doneCount === markerBatchHead.length && markerBatchTail.length ) {
+									geocodeMarkerBatch( markerBatchTail.shift(), markerBatchTail );
 								}
 							}
-							if ( ++doneCount === markerBatchHead.length && markerBatchTail.length ) {
-								geocodeMarkerBatch( markerBatchTail.shift(), markerBatchTail );
-							}
-						}.bind( this ) )
-						.fail( function ( errorStatus ) {
-							overQuota = errorStatus === google.maps.GeocoderStatus.OVER_QUERY_LIMIT;
-							console.log( errorStatus );
-						} );
+						);
+						
 					}
 				}.bind( this );
 				geocodeMarkerBatch( markerBatches.shift(), markerBatches );
@@ -288,10 +304,7 @@ sowb.SiteOriginGoogleMap = function($) {
 						return;
 					}
 
-					var autocomplete = new google.maps.places.Autocomplete(
-						element,
-						{types: ['address']}
-					);
+					var autocomplete = new google.maps.places.Autocomplete( element );
 
 					var $mapField = $(element).siblings('.sow-google-map-canvas');
 
@@ -360,8 +373,8 @@ sowb.SiteOriginGoogleMap = function($) {
 			var latLng;
 			
 			if ( inputLocation && inputLocation.indexOf( ',' ) > -1 ) {
-				var vals = inputLocation.split( ',' );
-				// A latlng value should be of the format 'lat,lng'
+				// A latlng value should be of the format 'lat,lng' or '(lat,lng)'
+				var vals = inputLocation.replace(/[\(\)]/g, '').split( ',' );
 				if ( vals && vals.length === 2 ) {
 					latLng = new google.maps.LatLng( vals[ 0 ], vals[ 1 ] );
 					// Let the API decide if we have a valid latlng
@@ -450,15 +463,19 @@ jQuery(function ($) {
 				}
 			}, 100 );
 		} else {
-			var apiUrl = 'https://maps.googleapis.com/maps/api/js?callback=soGoogleMapInitialize';
+			
+			if ( ! apiKey ) {
+				console.warn( 'SiteOrigin Google Maps: Could not find API key. Google Maps API key is required.' );
+				apiKey = '';
+			}
+			
+			// Try to load even if API key is missing to allow Google Maps API to provide it's own warnings/errors about missing API key.
+			var apiUrl = 'https://maps.googleapis.com/maps/api/js?key=' + apiKey + '&callback=soGoogleMapInitialize';
 
 			if ( libraries && libraries.length ) {
 				apiUrl += '&libraries=' + libraries.join(',');
 			}
 
-			if ( apiKey ) {
-				apiUrl += '&key=' + apiKey;
-			}
 
 			// This allows us to "catch" Google Maps JavaScript API errors and do a bit of custom handling. In this case,
 			// we display a user-specified fallback image if there is one.
@@ -466,7 +483,10 @@ jQuery(function ($) {
 				var errLog = window.console.error;
 
 				sowb.onLoadMapsApiError = function ( error ) {
-					var matchError = error.match( /^Google Maps API (error|warning): ([^\s]*)\s([^\s]*)(?:\s(.*))?/ );
+					var matchError;
+					if ( typeof error === 'string' ) {
+						matchError = error.match( /^Google Maps API (error|warning): ([^\s]*)\s([^\s]*)(?:\s(.*))?/ );
+					}
 					if ( matchError && matchError.length && matchError[0] ) {
 						$( '.sow-google-map-canvas' ).each( function ( index, element ) {
 							var $this = $( element );
@@ -493,5 +513,3 @@ jQuery(function ($) {
 	$( sowb ).on( 'setup_widgets', sowb.setupGoogleMaps );
 
 });
-
-window.sowb = sowb;

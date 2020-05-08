@@ -15,7 +15,7 @@
 <form role="search" method="get" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
 	<label >
 		<span class="screen-reader-text"><?php echo esc_attr_x( 'Search for:', 'label', 'lz-charity-welfare' ); ?></span>
+		<input type="search" class="search-field" placeholder="<?php echo esc_attr_x( 'Search', 'placeholder', 'lz-charity-welfare' ); ?>" value="<?php echo esc_attr(get_search_query() ); ?>" name="s" />
 	</label>
-	<input type="search" class="search-field" placeholder="<?php echo esc_attr_x( 'Search &hellip;', 'placeholder', 'lz-charity-welfare' ); ?>" value="<?php echo esc_attr(get_search_query() ); ?>" name="s" />
-	<button type="submit" class="search-submit"><?php echo esc_attr_x( 'Search', 'submit button', 'lz-charity-welfare' ); ?></button>
+	<button type="submit" class="search-submit" role="tab"><?php echo esc_attr_x( 'Search', 'submit button', 'lz-charity-welfare' ); ?></button>
 </form>

@@ -10,5 +10,5 @@
 
 ?>
 <div class="site-info">
-	<p><?php echo esc_html(get_theme_mod('lz_charity_welfare_footer_copy',__('Charity Theme Design & Developed By','lz-charity-welfare'))); ?> <?php lz_charity_welfare_credit(); ?></p>
+	<p><?php lz_charity_welfare_credit(); ?> <?php echo esc_html(get_theme_mod('lz_charity_welfare_footer_copy',__('By Luzuk','lz-charity-welfare'))); ?></p>
 </div>

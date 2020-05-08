@@ -4,6 +4,7 @@ Widget Name: Layout Slider
 Description: A slider that allows you to create responsive columnized content for each slide.
 Author: SiteOrigin
 Author URI: https://siteorigin.com
+Documentation: https://siteorigin.com/widgets-bundle/layout-slider-widget/
 */
 
 if( !class_exists( 'SiteOrigin_Widget_Base_Slider' ) ) include_once plugin_dir_path(SOW_BUNDLE_BASE_FILE) . '/base/inc/widgets/base-slider.class.php';
@@ -28,15 +29,23 @@ class SiteOrigin_Widget_LayoutSlider_Widget extends SiteOrigin_Widget_Base_Slide
 	}
 
 	function get_widget_form(){
+		$show_heading_fields = apply_filters( 'sow_layout_slider_show_heading_fields', false );
 		return array(
 			'frames' => array(
 				'type' => 'repeater',
 				'label' => __('Slider frames', 'so-widgets-bundle'),
 				'item_name' => __('Frame', 'so-widgets-bundle'),
 				'item_label' => array(
-					'selector' => "[id*='frames-title']",
-					'update_event' => 'change',
-					'value_method' => 'val'
+					'selectorArray' => array(
+						array(
+							'selector' => '.siteorigin-widget-field-image .media-field-wrapper .current .title',
+							'valueMethod' => 'html'
+						),
+						array(
+							'selector' => '.siteorigin-widget-field-videos .siteorigin-widget-field-repeater-items  .media-field-wrapper .current .title',
+							'valueMethod' => 'html'
+						),
+					),
 				),
 
 				'fields' => array(
@@ -129,6 +138,12 @@ class SiteOrigin_Widget_LayoutSlider_Widget extends SiteOrigin_Widget_Base_Slide
 						'label' => __( 'Responsive Height', 'so-widgets-bundle' ),
 					),
 
+					'vertically_align' => array(
+						'type' => 'checkbox',
+						'label' => __( 'Vertically center align slide contents', 'so-widgets-bundle' ),
+						'description' => __( 'For perfect centering, consider setting the Extra top padding setting to 0 when enabling this setting.', 'so-widgets-bundle' ),
+					),
+
 					'padding' => array(
 						'type' => 'measurement',
 						'label' => __('Top and bottom padding', 'so-widgets-bundle'),
@@ -157,13 +172,15 @@ class SiteOrigin_Widget_LayoutSlider_Widget extends SiteOrigin_Widget_Base_Slide
 					'heading_color' => array(
 						'type' => 'color',
 						'label' => __('Heading color', 'so-widgets-bundle'),
-						'default' => '#FFFFFF',
-					),
-
-					'heading_size' => array(
-						'type' => 'measurement',
-						'label' => __('Heading size', 'so-widgets-bundle'),
-						'default' => '38px',
+						'state_emitter' => array(
+							'callback' => 'conditional',
+							'args'     => array(
+								'meh[hide]: ' . ( $show_heading_fields ? 'false' : 'true' ),
+							),
+						),
+						'state_handler' => array(
+							'meh[hide]' => array( 'hide' ),
+						)
 					),
 
 					'heading_shadow' => array(
@@ -171,19 +188,25 @@ class SiteOrigin_Widget_LayoutSlider_Widget extends SiteOrigin_Widget_Base_Slide
 						'label' => __('Heading shadow intensity', 'so-widgets-bundle'),
 						'max' => 100,
 						'min' => 0,
-						'default' => 50,
+						'state_handler' => array(
+							'meh[hide]' => array( 'hide' ),
+						)
 					),
 
 					'text_size' => array(
 						'type' => 'measurement',
 						'label' => __('Text size', 'so-widgets-bundle'),
-						'default' => '16px',
+						'state_handler' => array(
+							'meh[hide]' => array( 'hide' ),
+						)
 					),
 
 					'text_color' => array(
 						'type' => 'color',
 						'label' => __('Text color', 'so-widgets-bundle'),
-						'default' => '#F6F6F6',
+						'state_handler' => array(
+							'meh[hide]' => array( 'hide' ),
+						)
 					),
 
 				)
@@ -192,7 +215,7 @@ class SiteOrigin_Widget_LayoutSlider_Widget extends SiteOrigin_Widget_Base_Slide
 	}
 
 	function form( $instance, $form_type = 'widget' ) {
-		if( is_admin() && defined('SITEORIGIN_PANELS_VERSION') ) {
+		if ( ( is_admin() || ( defined('REST_REQUEST' ) && function_exists( 'register_block_type' ) ) ) && defined('SITEORIGIN_PANELS_VERSION') ) {
 			parent::form( $instance, $form_type );
 		} else {
 			?>
@@ -277,6 +300,10 @@ class SiteOrigin_Widget_LayoutSlider_Widget extends SiteOrigin_Widget_Base_Slide
 	function get_less_variables($instance) {
 		$less = array();
 
+		if ( empty( $instance ) ) {
+			return $less;
+		}
+
 		// Slider navigation controls
 		$less['nav_color_hex'] = $instance['controls']['nav_color_hex'];
 		$less['nav_size'] = $instance['controls']['nav_size'];
@@ -293,17 +320,27 @@ class SiteOrigin_Widget_LayoutSlider_Widget extends SiteOrigin_Widget_Base_Slide
 			$meas_options['slide_height_responsive'] = $instance['design']['height_responsive'];
 		}
 
-		$meas_options['heading_size'] = $instance['design']['heading_size'];
-		$meas_options['text_size'] = $instance['design']['text_size'];
+		if ( ! empty( $instance['design']['text_size'] ) ) {
+			$meas_options['text_size'] = $instance['design']['text_size'];
+		}
 
 		foreach ( $meas_options as $key => $val ) {
 			$less[ $key ] = $this->add_default_measurement_unit( $val );
 		}
 
-		$less['heading_shadow'] = intval( $instance['design']['heading_shadow'] );
+		$less['vertically_align'] = empty( $instance['design']['vertically_align'] ) ? 'false' : 'true';
 
-		$less['heading_color'] = $instance['design']['heading_color'];
-		$less['text_color'] = $instance['design']['text_color'];
+		if ( ! empty( $instance['design']['heading_shadow'] ) ) {
+			$less['heading_shadow'] = intval( $instance['design']['heading_shadow'] );
+		}
+
+		if ( ! empty( $instance['design']['heading_color'] ) ) {
+			$less['heading_color'] = $instance['design']['heading_color'];
+		}
+
+		if ( ! empty( $instance['design']['text_color'] ) ) {
+			$less['text_color'] = $instance['design']['text_color'];
+		}
 
 		$global_settings = $this->get_global_settings();
 
@@ -311,19 +348,7 @@ class SiteOrigin_Widget_LayoutSlider_Widget extends SiteOrigin_Widget_Base_Slide
 			$less['responsive_breakpoint'] = $global_settings['responsive_breakpoint'];
 		}
 
-
 		return $less;
-	}
-
-	function get_settings_form() {
-		return array(
-			'responsive_breakpoint' => array(
-				'type'        => 'measurement',
-				'label'       => __( 'Responsive Breakpoint', 'so-widgets-bundle' ),
-				'default'     => '780px',
-				'description' => __( "This setting controls when the Layout Slider widget will switch to the responsive height for slides. This breakpoint will only be used if a responsive height is set in the Layout Slider's settings. The default value is 780px.", 'so-widgets-bundle' )
-			)
-		);
 	}
 
 	function add_default_measurement_unit($val) {

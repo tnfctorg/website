@@ -10,7 +10,7 @@
 
 <div class="title-box">
     <div class="container">
-        <h1 class="entry-title"><?php esc_html_e( 'Nothing Found', 'vw-charity-ngo' ); ?></h1>
+        <h2 class="entry-title"><?php esc_html_e( 'Nothing Found', 'vw-charity-ngo' ); ?></h2>
     </div>
 </div>
 
@@ -23,6 +23,6 @@
 	<?php else : ?>
 	<p><?php esc_html_e( 'Dont worry&hellip it happens to the best of us.', 'vw-charity-ngo' ); ?></p><br />
 	<div class="read-moresec">
-		<a href="<?php echo esc_url(home_url() ); ?>" class="button hvr-sweep-to-right"><?php esc_html_e( 'Back to Home Page', 'vw-charity-ngo' ); ?></a>
+		<a href="<?php echo esc_url(home_url() ); ?>" class="button hvr-sweep-to-right"><?php esc_html_e( 'Back to Home Page', 'vw-charity-ngo' ); ?><span class="screen-reader-text"><?php esc_html_e( 'Back to Home Page','vw-charity-ngo' );?></span></a>
 	</div>
 <?php endif; ?>

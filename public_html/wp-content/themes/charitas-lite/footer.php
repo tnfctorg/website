@@ -7,16 +7,16 @@
  * @since Charitas Lite 1.0
  */
 ?>
-	
+
 	<div id="footer-widget-area">
-		
+
 	<!-- Footer -->
 		<footer id="colophon" class="site-footer" role="contentinfo">
-			
+
 			<div id="tertiary" class="sidebar-container" role="complementary">
 				<?php if (is_active_sidebar( 'f1-widgets' ) || is_active_sidebar( 'f2-widgets' ) || is_active_sidebar( 'f3-widgets' ) || is_active_sidebar( 'f4-widgets' ) ) { ?>
 					<div class="container_16">
-						
+
 						<?php if ( is_active_sidebar( 'f1-widgets' ) ) : ?>
 							<!-- First Widget Area -->
 							<div class="grid_4">
@@ -54,17 +54,17 @@
 			<!-- Site Info -->
 			<div class="site-info">
 				<div class="container_16">
-					
+
 					<!-- CopyRight -->
 					<div class="grid_8">
 						<p class="copy">
 							<?php if ( get_theme_mod('wplook_copy') ){ echo esc_html(get_theme_mod('wplook_copy') ); } ?>
 						</p>
 					</div>
-					
+
 					<!-- Design By -->
 					<div class="grid_8">
-						<p class="designby">Copyright ©2016. All Rights Reserved | Deisgned by TNFCT.ORG | Powered By WordPress, WPlook Studio</a></p>
+						<p class="designby"><?php _e('Designed by', 'charitas-lite'); ?> <a href="https://wplook.com/product/themes/non-profit/charitas-charity-nonprofit-wordpress-theme/?utm_source=footer&utm_medium=link&utm_campaign=Charitas-Lite" title="<?php _e('WPlook Studio', 'charitas-lite'); ?>" rel="nofollow" target="_blank">WPlook Studio</a></p>
 					</div>
 
 					<div class="clear"></div>

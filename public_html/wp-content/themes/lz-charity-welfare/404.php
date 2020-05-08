@@ -11,9 +11,9 @@ get_header(); ?>
 
 <div class="container">
 	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+		<main id="content" class="site-main" role="main">
 			<section class="error-404 not-found">
-				<header class="page-header">
+				<header role="banner" class="page-header">
 					<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'lz-charity-welfare' ); ?></h1>
 					<div class="home-btn">
 						<a href="<?php echo esc_url( home_url() ); ?>"><?php esc_html_e( 'Return to home page', 'lz-charity-welfare' ); ?></a>

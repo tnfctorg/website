@@ -10,11 +10,10 @@
 ?>
 <?php if( is_single()) { ?>
 
-
 	<article id="post-<?php the_ID(); ?>" <?php post_class("single"); ?>>
-						
+
 			<div class="entry-content">
-				
+
 				<div class="clear"></div>
 
 				<div class="long-description">
@@ -22,9 +21,8 @@
 					<?php wp_link_pages( array( 'before' => '<div class="clear"></div><div class="page-link"><span>' . __( 'Pages:', 'charitas-lite' ) . '</span>', 'after' => '</div>' ) ); ?>
 				</div>
 
-				
 				<div class="clear"></div>
-				
+
 				<div class="entry-meta-press">
 
 					<!-- Date -->
@@ -33,7 +31,7 @@
 							<i class="icon-calendar"></i> <?php esc_html(charitas_get_date_time()); ?>
 						</time>
 					<?php } ?>
-					
+
 					<!-- Category -->
 					<?php if ( get_theme_mod('wplook_category_single_post') !='off' ){  ?>
 						<div class="category-i fleft">
@@ -41,10 +39,9 @@
 						</div>
 					<?php } ?>
 
-
 					<?php if ( get_the_tag_list( '', ', ' ) ) { ?>
-						<div class="tag-i fleft"> 
-							<i class="icon-tags"></i> <a href="#" rel="tag"><?php echo get_the_tag_list('',', ',''); ?></a> 
+						<div class="tag-i fleft">
+							<i class="icon-tags"></i> <a href="#" rel="tag"><?php echo get_the_tag_list('',', ',''); ?></a>
 						</div>
 					<?php } ?>
 
@@ -60,7 +57,7 @@
 			</div>
 
 			<div class="clear"></div>
-					
+
 		</article>
 
 		<?php comments_template( '', true ); ?>
@@ -68,7 +65,7 @@
 <?php } else { ?>
 	<article id="post-<?php the_ID(); ?>" <?php post_class("list"); ?>>
 		<div class="short-content">
-			
+
 			<?php if ( has_post_thumbnail() ) {?>
 				<figure>
 				<a title="<?php the_title(); ?>" href="<?php the_permalink(); ?>">
@@ -77,9 +74,9 @@
 						<div class="mask-square"><i class="icon-link"></i></div>
 					</div>
 				</a>
-				</figure> 
+				</figure>
 			<?php } ?>
-			
+
 			<h1 class="entry-header">
 				<a title="<?php the_title(); ?>" href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 			</h1>
@@ -94,7 +91,7 @@
 				} ?>
 				<?php wp_link_pages( array( 'before' => '<div class="clear"></div><div class="page-link"><span>' . __( 'Pages:', 'charitas-lite' ) . '</span>', 'after' => '</div>' ) ); ?>
 			</div>
-			
+
 			<div class="entry-meta">
 				<!-- Date -->
 				<?php if ( get_theme_mod('wplook_date_blog_post') !='off' ){  ?>
@@ -105,9 +102,9 @@
 
 				<!-- Author -->
 				<?php if ( get_theme_mod('wplook_author_blog_post') !='off' ){  ?>
-					<a class="buttons author fleft" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"><i class="icon-user"></i> <?php echo get_the_author(); ?></a> 
+					<a class="buttons author fleft" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"><i class="icon-user"></i> <?php echo get_the_author(); ?></a>
 				<?php } ?>
-				
+
 				<a class="buttons fright" href="<?php the_permalink(); ?>" title="<?php _e('read more', 'charitas-lite'); ?>"><?php _e('read more', 'charitas-lite'); ?></a>
 			</div>
 			<div class="clear"></div>
@@ -115,4 +112,4 @@
 		</div>
 		<div class="clear"></div>
 	</article>
-<?php } ?>	
+<?php } ?>

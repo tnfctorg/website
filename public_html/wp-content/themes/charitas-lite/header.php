@@ -25,12 +25,11 @@
 			<div class="container_16">
 
 				<div class="grid_16">
-					
-					
-						<?php
-							if ( has_nav_menu( 'language' ) ) { 
-								wp_nav_menu( array('depth' => '3', 'theme_location' => 'language' ));
-						} ?> 
+
+					<?php
+						if ( has_nav_menu( 'language' ) ) {
+							wp_nav_menu( array('depth' => '3', 'theme_location' => 'language' ));
+					} ?>
 
 					<ul class="tb-list">
 
@@ -41,11 +40,11 @@
 						<?php if ( get_theme_mod('wplook_rssurl') ){  ?>
 							<li class="rss"><a href="<?php echo esc_html(get_theme_mod('wplook_rssurl') ); ?>"><i class="icon-feed2"></i></a></li>
 						<?php } ?>
-						
+
 						<?php if ( get_theme_mod('wplook_contacturl') ){  ?>
 							<li class="contact"><a href="<?php echo esc_url( get_page_link(get_theme_mod('wplook_contacturl')) ); ?>"><i class="icon-envelope"></i></a></li>
 						<?php } ?>
-						
+
 						<?php if ( get_theme_mod('wplook_facebookurl') ){  ?>
 							<li class="share-item-icon-facebook mt"><a target="_blank" title="Facebook" href="<?php echo esc_url(get_theme_mod('wplook_facebookurl') ); ?>"><i class="icon-facebook"></i></a></li>
 						<?php } ?>
@@ -103,9 +102,9 @@
 					<nav role="navigation" class="site-navigation main-navigation grid_11" id="site-navigation">
 						<?php wp_nav_menu( array('menu_class' => 'nav-menu',  'theme_location' => 'primary' )); ?>
 					</nav>
-					
+
 					<!-- Mobile navigation -->
-					
+
 					<div class="grid_16 mob-nav"></div>
 
 					<!-- .site-navigation .main-navigation -->

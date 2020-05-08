@@ -11,7 +11,7 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class("list"); ?>>
 	<div class="short-content">
-		
+
 		<?php if ( has_post_thumbnail() ) {?>
 			<figure>
 			<a title="<?php the_title(); ?>" href="<?php the_permalink(); ?>">
@@ -20,7 +20,7 @@
 					<div class="mask-square"><i class="icon-link"></i></div>
 				</div>
 			</a>
-			</figure> 
+			</figure>
 		<?php } ?>
 
 		<h1 class="entry-header">
@@ -41,9 +41,9 @@
 
 			<!-- Author -->
 			<?php if ( get_theme_mod('wplook_author_blog_post') !='off' ){  ?>
-				<a class="buttons author fleft" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"><i class="icon-user"></i> <?php echo get_the_author(); ?></a> 
+				<a class="buttons author fleft" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>"><i class="icon-user"></i> <?php echo get_the_author(); ?></a>
 			<?php } ?>
-			
+
 			<a class="buttons fright" href="<?php the_permalink(); ?>" title="<?php _e('read more', 'charitas-lite'); ?>"><?php _e('read more', 'charitas-lite'); ?></a>
 		</div>
 		<div class="clear"></div>

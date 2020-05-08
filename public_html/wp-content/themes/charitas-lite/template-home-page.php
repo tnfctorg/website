@@ -28,9 +28,9 @@
 			} // End displaying the default content
 		?>
 		<div class="clear"></div>
-		
+
 		<?php if (is_active_sidebar( 'front-1' ) || is_active_sidebar( 'front-2' ) || is_active_sidebar( 'front-3' ) || is_active_sidebar( 'front-4' ) || is_active_sidebar( 'front-5' ) ) { ?>
-			
+
 			<?php if ( is_active_sidebar( 'front-1' ) ) : ?>
 				<!-- First Widget Area -->
 				<div class="<?php echo esc_html(get_theme_mod('wplook_first_front_widget_size') ); ?> first-home-widget-area">
@@ -59,10 +59,10 @@
 				</div>
 			<?php endif; ?>
 
-		<?php }	?>
+		<?php } ?>
 
 		<div class="clear"></div>
 	</div>
-</div>	
+</div>
 
 <?php get_footer(); ?>

@@ -45,8 +45,8 @@ switch ( $template ) {
 		echo '<div id="primary" class="content-area twentysixteen"><main id="main" class="site-main" role="main">';
 		break;
 	case 'vw-charity-ngo' :
-	echo '<div id="primary" class="content-area vw-charity-ngo"><main id="main" class="site-main" role="main">';
-	break;
+		echo '<div id="primary" class="content-area vw-charity-ngo"><main id="main" class="site-main" role="main">';
+		break;
 	default :
 		echo '<div id="primary" class="content-area"><main id="main" class="site-main" role="main">';
 		break;

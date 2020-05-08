@@ -8,14 +8,14 @@
  * Author URI: https://www.wplook.com
 */
 
-add_action('widgets_init', create_function('', 'return register_widget("wplook_featured_news");'));
+add_action('widgets_init', function(){return register_widget("wplook_featured_news");});
 class wplook_featured_news extends WP_Widget {
 
-	
+
 	/*-----------------------------------------------------------------------------------*/
 	/*	Widget actual processes
 	/*-----------------------------------------------------------------------------------*/
-	
+
 	public function __construct() {
 		parent::__construct(
 	 		'wplook_featured_news',
@@ -24,11 +24,11 @@ class wplook_featured_news extends WP_Widget {
 		);
 	}
 
-	
+
 	/*-----------------------------------------------------------------------------------*/
 	/*	Outputs the options form on admin
 	/*-----------------------------------------------------------------------------------*/
-	
+
 	public function form( $instance ) {
 		if ( $instance ) {
 			$title = esc_attr( $instance[ 'title' ] );
@@ -42,8 +42,8 @@ class wplook_featured_news extends WP_Widget {
 		}
 		else {
 			$categories = __( 'All', 'charitas-lite' );
-		} 
-		
+		}
+
 		if ( $instance ) {
 			$display_type = esc_attr( $instance[ 'display_type' ] );
 		}
@@ -58,7 +58,7 @@ class wplook_featured_news extends WP_Widget {
 		else {
 			$nr_posts = __( '5', 'charitas-lite' );
 		}  ?>
-		
+
 		<p>
 			<label for="<?php echo $this->get_field_id('title'); ?>"> <?php _e('Title:', 'charitas-lite'); ?> </label>
 			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
@@ -69,17 +69,17 @@ class wplook_featured_news extends WP_Widget {
 				<?php _e('Category:', 'charitas-lite'); ?>
 				<br />
 			</label>
-			
+
 			<?php wp_dropdown_categories(
-				array( 
+				array(
 					'name'	=> $this->get_field_name("categories"),
 					'show_option_all'    => __('All', 'charitas-lite'),
 					'show_count'	=> 1,
 					'selected' => $categories,
-					'taxonomy'  => 'category' 
-				) 
+					'taxonomy'  => 'category'
+				)
 			); ?>
-			
+
 		</p>
 		<p>
 			<label for="<?php echo $this->get_field_id('display_type'); ?>"><?php _e('Display latest post instead of sticky posts:', 'charitas-lite'); ?> <br /> </label>
@@ -87,23 +87,23 @@ class wplook_featured_news extends WP_Widget {
 				<option value="no" <?php selected( 'no', $display_type ); ?>><?php _e('No', 'charitas-lite'); ?></option>
 				<option value="yes" <?php selected( 'yes', $display_type ); ?>><?php _e('Yes', 'charitas-lite'); ?></option>
 			</select>
-		</p>	
+		</p>
 
-		
+
 		<p>
 			<label for="<?php echo $this->get_field_id('nr_posts'); ?>"> <?php _e('Number of posts:', 'charitas-lite'); ?> </label>
 			<input class="widefat" id="<?php echo $this->get_field_id('nr_posts'); ?>" name="<?php echo $this->get_field_name('nr_posts'); ?>" type="text" value="<?php echo $nr_posts; ?>" />
 			<p style="font-size: 10px; color: #999; margin: -10px 0 0 0px; padding: 0px;"> <?php _e('Number of posts you want to display', 'charitas-lite'); ?></p>
 		</p>
-		
-		<?php 
+
+		<?php
 	}
-	
+
 	/*-----------------------------------------------------------------------------------*/
 	/*	Processes widget options to be saved
 	/*-----------------------------------------------------------------------------------*/
-	
-	
+
+
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = sanitize_text_field($new_instance['title']);
@@ -126,7 +126,7 @@ class wplook_featured_news extends WP_Widget {
 		$display_type = apply_filters( 'widget', $instance['display_type'] );
 		$nr_posts = apply_filters( 'widget', $instance['nr_posts'] );
 		?>
-		
+
 
 		<?php
 			if ($display_type == 'yes') {
@@ -171,20 +171,20 @@ class wplook_featured_news extends WP_Widget {
 			$sticky_post = null;
 			$sticky_post = new WP_Query( $args );
 		?>
-		
+
 			<?php if( $sticky_post->have_posts() ) : ?>
-				
+
 				<aside class="WPlookLatestNews flex-container-news" >
 					<div class="widget-title mright mleft" >
 						<h3><?php echo $title ?></h3>
 						<div class="clear"></div>
 					</div>
-					
+
 					<div class="latestnews-body flexslider-news loading">
 						<ul class="slides">
 
 							<?php while( $sticky_post->have_posts() ) : $sticky_post->the_post(); ?>
-								
+
 								<li>
 									<?php if ( has_post_thumbnail() ) { ?>
 										<a title="<?php the_title(); ?>" href="<?php the_permalink(); ?>">
@@ -201,7 +201,7 @@ class wplook_featured_news extends WP_Widget {
 									</div>
 									<div class="clear"></div>
 								</li>
-								
+
 							<?php endwhile; wp_reset_postdata(); ?>
 
 						</ul>

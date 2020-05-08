@@ -1,5 +1,5 @@
 /*About theme*/
-#wpwrap{
+.appearance_page_vw_charity_ngo_guide{
 	background: #fff;
     font-family: 'Muli', sans-serif;
 }
@@ -237,18 +237,8 @@ td.update-link a {
 .row-box a {
     text-decoration: none;
 }
-.welcome-notice {
-    border: solid 5px #eee;
-    text-align: center;
-    padding: 15px 0;
-}
-.welcome-notice p {
-    padding: 0 10em;
-    color: #333;
-    font-size: 15px;
-}
+/*welcome */
 .welcome-notice h3 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #0073aa;
+    margin: 0;
+    padding-top: 5px;
 }

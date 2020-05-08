@@ -29,7 +29,7 @@ define('DB_USER', 'tnfctdbo');
 define('DB_PASSWORD', 'infctdbo!1820');
 
 /** MySQL hostname */
-define('DB_HOST', 'tnfctorg.domaincommysql.com');
+define('DB_HOST', '127.0.0.1');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');

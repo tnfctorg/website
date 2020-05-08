@@ -47,7 +47,7 @@ if ( ! function_exists( 'charitas_custom_oembed_filter' ) ) {
 
 	function charitas_custom_oembed_filter($html, $url, $attr, $post_ID) {
 		$return = '<div class="video-container">'.$html.'</div>';
-	    return $return;
+		return $return;
 	}
 }
 
@@ -72,7 +72,7 @@ if ( ! function_exists( 'charitas_get_time' ) ) {
 if ( ! function_exists( 'charitas_get_date_time' ) ) {
 
 	function charitas_get_date_time() {
-		the_time(get_option('date_format')); 
+		the_time(get_option('date_format'));
 		_e( ' at ', 'charitas-lite');
 		the_time(get_option('time_format'));
 	}
@@ -108,26 +108,26 @@ if ( ! function_exists( 'charitas_breadcrumbs' ) ) {
 	function charitas_breadcrumbs() {
 		$showOnHome 	= '0'; // 1 - show breadcrumbs on the homepage, 0 - don't show
 		$delimiter 	= '>'; // delimiter between crumbs
-		
+
 		$showCurrent 	= '1'; // 1 - show current post/page title in breadcrumbs, 0 - don't show
 		$before 		= '<span class="current">'; // tag before the current crumb
 		$after 		= '</span>'; // tag after the current crumb
-		
+
 		$text['home'] = __('Home','charitas-lite'); // text for the 'Home' link
 		$text['category'] = __('Archive for %s','charitas-lite'); // text for a category page
 		$text['search'] = __('Search results for: %s','charitas-lite'); // text for a search results page
 		$text['tag'] = __('Posts tagged %s','charitas-lite'); // text for a tag page
 		$text['author'] = __('Posts by %s','charitas-lite'); // text for an author page
 		$text['404'] = __('Error 404','charitas-lite'); // text for the 404 page
-		
+
 		global $post;
 		$homeLink = home_url( '/' );
-		
+
 		if (is_home() || is_front_page()) {
 
 			if ($showOnHome == 1) echo '<a href="' . $homeLink . '">' . $text['home'] . '</a>';
 
-  		} else {
+		} else {
 
 			echo '<a href="' . $homeLink . '">' . $text['home'] . '</a> ' . $delimiter . ' ';
 
@@ -166,15 +166,15 @@ if ( ! function_exists( 'charitas_breadcrumbs' ) ) {
 					$cats = get_category_parents($cat, TRUE, ' ' . $delimiter . ' ');
 					if ($showCurrent == 0) $cats = preg_replace("/^(.+)\s$delimiter\s$/", "$1", $cats);
 					echo $cats;
-					
+
 					if ($showCurrent == 1 ) {
 						if ( get_the_title() ) {
 							echo $before . get_the_title() . $after;
 						} else {
 							echo $before . get_the_date() . $after;
 						}
-						
-					} 
+
+					}
 				}
 
 			} elseif ( !is_single() && !is_page() && get_post_type() != 'post' && !is_404() ) {
@@ -242,9 +242,9 @@ if ( ! function_exists( 'charitas_open_graph' ) ) {
 			$wplook_title = single_post_title('', false);
 			$wplook_url = get_permalink($wplook_postid);
 			$wplook_blogname = get_bloginfo('name');
-				echo "\n<meta property='og:title' content='$wplook_title' />",			
-					"\n<meta property='og:site_name' content='$wplook_blogname' />",				
-					"\n<meta property='og:url' content='$wplook_url' />",				
+				echo "\n<meta property='og:title' content='$wplook_title' />",
+					"\n<meta property='og:site_name' content='$wplook_blogname' />",
+					"\n<meta property='og:url' content='$wplook_url' />",
 					"\n<meta property='og:type' content='article' />";
 		}
 	}
@@ -274,7 +274,7 @@ if ( ! function_exists( 'charitas_fb_thumb' ) ) {
 /*-----------------------------------------------------------------------------------*/
 
 if ( ! function_exists( 'charitas_featuredtoRSS' ) ) {
-	
+
 	function charitas_featuredtoRSS($content) {
 
 		global $post;
@@ -398,22 +398,22 @@ if ( ! function_exists( 'charitas_bar_menu' ) ):
 			return;
 		$admin_dir = get_admin_url();
 
-		$wp_admin_bar->add_menu( 
+		$wp_admin_bar->add_menu(
 			array(
 				'id' => 'custom_menu',
 				'title' => __( 'WPlook Panel', 'charitas-lite' ),
 				'href' => FALSE,
-				'meta' => array('title' => 'WPlook Options Panel', 'class' => 'wplookpanel') 
-			) 
+				'meta' => array('title' => 'WPlook Options Panel', 'class' => 'wplookpanel')
+			)
 		);
-http://dev.wplook.com/charitas-lite/wp-admin/?return=%2Fcharitas-lite%2Fwp-admin%2F
+
 		$wp_admin_bar->add_menu(
 			array(
 				'id' => 'wpl_to',
 				'parent' => 'custom_menu',
 				'title' => __( 'Customize', 'charitas-lite' ),
 				'href' => $admin_dir .'customize.php',
-				'meta' => array('title' => 'Theme Option') 
+				'meta' => array('title' => 'Theme Option')
 			)
 		);
 
@@ -423,10 +423,9 @@ http://dev.wplook.com/charitas-lite/wp-admin/?return=%2Fcharitas-lite%2Fwp-admin
 				'parent' => 'custom_menu',
 				'title' => __( 'Support', 'charitas-lite' ),
 				'href' => 'https://wplook.com/docs/?utm_source=Support&utm_medium=link&utm_campaign=Charitas-Lite',
-				'meta' => array('title' => 'Support') 
+				'meta' => array('title' => 'Support')
 			)
 		);
-
 
 		$wp_admin_bar->add_menu(
 			array(
@@ -444,7 +443,7 @@ http://dev.wplook.com/charitas-lite/wp-admin/?return=%2Fcharitas-lite%2Fwp-admin
 				'parent' => 'custom_menu',
 				'title' => __( 'Become our fan on Facebook', 'charitas-lite' ),
 				'href' => 'http://www.facebook.com/wplookthemes',
-				'meta' => array('target' => 'blank', 'title' => 'Become our fan on Facebook') 
+				'meta' => array('target' => 'blank', 'title' => 'Become our fan on Facebook')
 			)
 		);
 
@@ -471,13 +470,13 @@ function charitas_buy_menu() {
 	global $wp_admin_bar;
 	if ( !is_super_admin() || !is_admin_bar_showing() )
 		return;
-				
+
 	$wp_admin_bar->add_menu( array(
 	'id' => 'custom_buymenu',
 	'title' => __( 'Charitas - Full Version', 'charitas-lite' ),
-	'href' => 'https://wplook.com/theme/charitas/?utm_source=Buy-Full&utm_medium=link&utm_campaign=Charitas-Lite',
+	'href' => 'https://wplook.com/product/themes/non-profit/charitas-charity-nonprofit-wordpress-theme/?utm_source=Buy-Full&utm_medium=link&utm_campaign=Charitas-Lite',
 	'meta' => array('title' => 'Learn more about Charitas', 'class' => 'wplookbuy') ) );
-	
+
 }
 add_action('admin_bar_menu', 'charitas_buy_menu', '1000');
 
@@ -495,7 +494,7 @@ if ( ! function_exists( 'charitas_short_excerpt' ) ) {
 			$excerpt = implode(" ",$excerpt).'...';
 		} else {
 			$excerpt = implode(" ",$excerpt);
-		}	
+		}
 		$excerpt = preg_replace('`\[[^\]]*\]`','',$excerpt);
 		return $excerpt;
 	}

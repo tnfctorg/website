@@ -1,15 +1,15 @@
 <?php
 /**
- * The template part for displaying slider
+ * The template part for displaying image layout
  *
  * @package VW Charity NGO
  * @subpackage vw-charity-ngo
  * @since VW Charity NGO 1.0
  */
 ?>
-<div id="post-<?php the_ID(); ?>" <?php post_class('inner-service'); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('inner-service'); ?>>
     <div class="entry-content">
-        <h1><?php the_title();?></h1>    
+        <h1 class="section-title"><a href="<?php echo esc_url( get_permalink() ); ?>" title="<?php the_title_attribute(); ?>"><?php the_title();?><span class="screen-reader-text"><?php the_title(); ?></span></a></h1>    
         <div class="entry-attachment">
             <div class="attachment">
                 <?php vw_charity_ngo_the_attached_image(); ?>
@@ -17,7 +17,7 @@
 
             <?php if ( has_excerpt() ) : ?>
                 <div class="entry-caption">
-                    <?php the_excerpt(); ?>
+                    <div class="entry-content"><p><?php $excerpt = get_the_excerpt(); echo esc_html( vw_charity_ngo_string_limit_words( $excerpt, esc_attr(get_theme_mod('vw_charity_ngo_excerpt_number','30')))); ?></p></div>
                 </div>
             <?php endif; ?>
         </div>    
@@ -31,4 +31,4 @@
     </div>    
     <?php edit_post_link( __( 'Edit', 'vw-charity-ngo' ), '<footer class="entry-meta"><span class="edit-link">', '</span></footer>' ); ?>
     <div class="clearfix"></div>
-</div>
+</article>

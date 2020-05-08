@@ -1,15 +1,15 @@
 <?php
 //about theme info
 add_action( 'admin_menu', 'vw_charity_ngo_gettingstarted' );
-function vw_charity_ngo_gettingstarted() {    	
+function vw_charity_ngo_gettingstarted() {
 	add_theme_page( esc_html__('About VW Charity NGO', 'vw-charity-ngo'), esc_html__('About VW Charity NGO', 'vw-charity-ngo'), 'edit_theme_options', 'vw_charity_ngo_guide', 'vw_charity_ngo_mostrar_guide');   
 }
 
 // Add a Custom CSS file to WP Admin Area
 function vw_charity_ngo_admin_theme_style() {
    wp_enqueue_style( 'vw-charity-ngo-font', vw_charity_ngo_admin_font_url(), array() );
-   wp_enqueue_style('custom-admin-style', get_template_directory_uri() . '/inc/getting-started/getting-started.css');
-   wp_enqueue_script('tabs', get_template_directory_uri() . '/inc/getting-started/js/tab.js');
+   wp_enqueue_style('vw-charity-ngo-custom-admin-style', get_template_directory_uri() . '/inc/getting-started/getting-started.css');
+   wp_enqueue_script('vw-charity-ngo-tabs', get_template_directory_uri() . '/inc/getting-started/js/tab.js');
 }
 add_action('admin_enqueue_scripts', 'vw_charity_ngo_admin_theme_style');
 
@@ -20,7 +20,7 @@ function vw_charity_ngo_admin_font_url() {
 	$font_family[] = 'Muli:300,400,600,700,800,900';
 
 	$query_args = array(
-		'family'	=> urlencode(implode('|',$font_family)),
+		'family'	=> rawurlencode(implode('|',$font_family)),
 	);
 	$font_url = add_query_arg($query_args,'//fonts.googleapis.com/css');
 	return $font_url;
@@ -43,8 +43,8 @@ function vw_charity_ngo_mostrar_guide() {
 			<img src="<?php echo esc_url(get_template_directory_uri()); ?>/inc/getting-started/images/final-logo.png" alt="" />
 		</div>
 		<div class="update-now">
-			<h4><?php esc_html_e('Buy VW Corporate at 10% Discount','vw-charity-ngo'); ?></h4>
-			<h4><?php esc_html_e('Use Coupon','vw-charity-ngo'); ?> ( <span><?php esc_html_e('vwten2018','vw-charity-ngo'); ?></span> ) </h4> 
+			<h4><?php esc_html_e('Buy VW Charity NGO at 20% Discount','vw-charity-ngo'); ?></h4>
+			<h4><?php esc_html_e('Use Coupon','vw-charity-ngo'); ?> ( <span><?php esc_html_e('vwpro20','vw-charity-ngo'); ?></span> ) </h4> 
 			<div class="info-link">
 				<a href="<?php echo esc_url( VW_CHARITY_NGO_BUY_NOW ); ?>" target="_blank"> <?php esc_html_e( 'Upgrade to Pro', 'vw-charity-ngo' ); ?></a>
 			</div>
@@ -53,16 +53,16 @@ function vw_charity_ngo_mostrar_guide() {
 
     <div class="tab-sec">
 		<div class="tab">
-		  <button class="tablinks" onclick="openCity(event, 'lite_theme')"><?php esc_html_e( 'Getting Started', 'vw-charity-ngo' ); ?></button>		  
-		  <button class="tablinks" onclick="openCity(event, 'pro_theme')"><?php esc_html_e( 'Get Premium', 'vw-charity-ngo' ); ?></button>
-		  <button class="tablinks" onclick="openCity(event, 'free_pro')"><?php esc_html_e( 'Support', 'vw-charity-ngo' ); ?></button>
+		  <button class="tablinks" onclick="vw_charity_ngo_open_tab(event, 'lite_theme')"><?php esc_html_e( 'Getting Started', 'vw-charity-ngo' ); ?></button>		  
+		  <button class="tablinks" onclick="vw_charity_ngo_open_tab(event, 'pro_theme')"><?php esc_html_e( 'Get Premium', 'vw-charity-ngo' ); ?></button>
+		  <button class="tablinks" onclick="vw_charity_ngo_open_tab(event, 'free_pro')"><?php esc_html_e( 'Support', 'vw-charity-ngo' ); ?></button>
 		</div>
 
 		<!-- Tab content -->
 		<div id="lite_theme" class="tabcontent open">
 			<h3><?php esc_html_e( 'Lite Theme Information', 'vw-charity-ngo' ); ?></h3>
 			<hr class="h3hr">
-		  	<p><?php esc_html_e('VW Charity NGO is a minimal WordPress theme to design your charity website in the most beautiful way. The theme is useful for those who run a charity, NGO, trust, donation camp, foundations or a non-profit organisation. It can be used by those who often organise fundraising events, blood donation camps, welfare activities, campaigns etc. It has all the features which make it a perfect charity wordpress theme but it can be used for multiple purposes as to write a blog on charity activities and welfare related things or as a portfolio. It has a fully responsive layout and cross-browser compatibility. The NGO theme is written in clean and secure codes. It is SEO-friendly which makes it rank higher in search engine results. It has a testimonial section where people can express their views on your charity work. The VW Charity NGO theme has a banner and call to action (CTA) button. It has social media icons embedded to make your content reach wider audience. The theme can be customized to change its colour, background, logo, font etc. The theme has interactive and stunning user-interface to show your charity work in the best possible way. It is translation ready to entertain audience of various regions.','vw-charity-ngo'); ?></p>
+		  	<p><?php esc_html_e('VW Charity NGO is a minimal WordPress theme to design your charity website in the most beautiful way. The theme is useful for those who run a charity, NGO, trust, donation camp, foundations or a non-profit organisation. It can be used by those who often organise fundraising events, blood donation camps, welfare activities, campaigns etc. It has all the features which make it a perfect charity WordPress theme but it can be used for multiple purposes as to write a blog on charity activities and welfare related things or as a portfolio. It has a fully responsive layout and cross-browser compatibility. The NGO theme is written in clean and secure codes. It is SEO-friendly which makes it rank higher in search engine results. It has a testimonial section where people can express their views on your charity work. The VW Charity NGO theme has a banner and call to action (CTA) button. It has social media icons embedded to make your content reach wider audience. The theme can be customized to change its colour, background, logo, font etc. The theme has interactive and stunning user-interface to show your charity work in the best possible way. It is translation ready to entertain audience of various regions.','vw-charity-ngo'); ?></p>
 		  	<div class="col-left-inner">
 		  		<h4><?php esc_html_e( 'Theme Documentation', 'vw-charity-ngo' ); ?></h4>
 				<p><?php esc_html_e( 'If you need any assistance regarding setting up and configuring the Theme, our documentation is there.', 'vw-charity-ngo' ); ?></p>
@@ -96,7 +96,7 @@ function vw_charity_ngo_mostrar_guide() {
 								<span class="dashicons dashicons-format-image"></span><a href="<?php echo esc_url( admin_url('customize.php?autofocus[control]=custom_logo') ); ?>" target="_blank"><?php esc_html_e('Upload your logo','vw-charity-ngo'); ?></a>
 							</div>
 							<div class="row-box2">
-								<span class="dashicons dashicons-admin-customizer"></span><a href="<?php echo esc_url( admin_url('customize.php?autofocus[section]=vw_charity_ngo_typography') ); ?>" target="_blank"><?php esc_html_e('Typography','vw-charity-ngo'); ?></a>
+								<span class="dashicons dashicons-admin-customizer"></span><a href="<?php echo esc_url( admin_url('customize.php?autofocus[panel]=vw_charity_ngo_typography') ); ?>" target="_blank"><?php esc_html_e('Typography','vw-charity-ngo'); ?></a>
 							</div>
 						</div>
 						<div class="row-box">
@@ -371,18 +371,10 @@ function vw_charity_ngo_mostrar_guide() {
 		  	</div>
 
 		  	<div class="col-3">
-		  		<h4><span class="dashicons dashicons-sos"></span><?php esc_html_e('Post-purchase Queries', 'vw-charity-ngo'); ?></h4>
+		  		<h4><span class="dashicons dashicons-sos"></span><?php esc_html_e('Support Queries', 'vw-charity-ngo'); ?></h4>
 				<p> <?php esc_html_e('If you have any queries after purchase, you can contact us. We are eveready to help you out.', 'vw-charity-ngo'); ?></p>
 				<div class="info-link">
-					<a href="<?php echo esc_url( VW_CHARITY_NGO_CONTACT ); ?>" target="_blank"><?php esc_html_e('Contact Us', 'vw-charity-ngo'); ?></a>
-				</div>
-		  	</div>
-
-		  	<div class="col-3">
-		  		<h4><span class="dashicons dashicons-media-text"></span><?php esc_html_e('Theme Demo Content', 'vw-charity-ngo'); ?></h4>
-				<p> <?php esc_html_e('We are providing the demo content file within the theme folder.  You will require an importer plugin to import the demo content.', 'vw-charity-ngo'); ?></p>
-				<div class="info-link">
-					<a href="<?php echo esc_url( VW_CHARITY_NGO_DEMO_DATA ); ?>" target="_blank"><?php esc_html_e('Demo Content', 'vw-charity-ngo'); ?></a>
+					<a href="<?php echo esc_url( VW_CHARITY_NGO_SUPPORT ); ?>" target="_blank"><?php esc_html_e('Contact Us', 'vw-charity-ngo'); ?></a>
 				</div>
 		  	</div>
 		</div>

@@ -9,6 +9,7 @@
 
 function lz_charity_welfare_setup() {
 	
+	load_theme_textdomain( 'lz-charity-welfare', get_template_directory() . '/languages' );
 	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'woocommerce' );
 	add_theme_support( 'title-tag' );
@@ -31,7 +32,6 @@ function lz_charity_welfare_setup() {
 	$GLOBALS['content_width'] = 525;
 	register_nav_menus( array(
 		'primary' => __( 'Primary Menu', 'lz-charity-welfare' ),
-		'footer'	=> __('Footer Menu', 'lz-charity-welfare'),
 	) );
 
 	add_theme_support( 'html5', array(
@@ -57,8 +57,24 @@ function lz_charity_welfare_setup() {
  	 */
 	add_editor_style( array( 'assets/css/editor-style.css', lz_charity_welfare_fonts_url() ) );
 
+// Theme Activation Notice
+	global $pagenow;
+
+		if ( is_admin() && ('themes.php' == $pagenow) && isset( $_GET['activated'] ) ) {
+		add_action( 'admin_notices', 'lz_charity_welfare_activation_notice' );
+	}
+
 }
 add_action( 'after_setup_theme', 'lz_charity_welfare_setup' );
+
+// Notice after Theme Activation
+function lz_charity_welfare_activation_notice() {
+	echo '<div class="notice notice-success is-dismissible start-notice">';
+		echo '<h3>'. esc_html__( 'Welcome to Luzuk!!', 'lz-charity-welfare' ) .'</h3>';
+		echo '<p>'. esc_html__( 'Thank you for choosing LZ Charity Welfare theme. It will be our pleasure to have you on our Welcome page to serve you better.', 'lz-charity-welfare' ) .'</p>';
+		echo '<p><a href="'. esc_url( admin_url( 'themes.php?page=lz_charity_welfare_guide' ) ) .'" class="button button-primary">'. esc_html__( 'GET STARTED', 'lz-charity-welfare' ) .'</a></p>';
+	echo '</div>';
+}
 
 function lz_charity_welfare_widgets_init() {
 	register_sidebar( array(
@@ -67,8 +83,8 @@ function lz_charity_welfare_widgets_init() {
 		'description'   => __( 'Add widgets here to appear in your sidebar on blog posts and archive pages.', 'lz-charity-welfare' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<div class="widget_container"><h2 class="widget-title">',
-		'after_title'   => '</h2></div>',
+		'before_title'  => '<div class="widget_container"><h3 class="widget-title">',
+		'after_title'   => '</h3></div>',
 	) );
 
 	register_sidebar( array(
@@ -77,8 +93,8 @@ function lz_charity_welfare_widgets_init() {
 		'description'   => __( 'Add widgets here to appear in your pages and posts', 'lz-charity-welfare' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<div class="widget_container"><h2 class="widget-title">',
-		'after_title'   => '</h2></div>',
+		'before_title'  => '<div class="widget_container"><h3 class="widget-title">',
+		'after_title'   => '</h3></div>',
 	) );
 
 	register_sidebar( array(
@@ -87,8 +103,8 @@ function lz_charity_welfare_widgets_init() {
 		'description'   => __( 'Add widgets here to appear in your pages and posts', 'lz-charity-welfare' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<div class="widget_container"><h2 class="widget-title">',
-		'after_title'   => '</h2></div>',
+		'before_title'  => '<div class="widget_container"><h3 class="widget-title">',
+		'after_title'   => '</h3></div>',
 	) );
 
 	register_sidebar( array(
@@ -97,8 +113,8 @@ function lz_charity_welfare_widgets_init() {
 		'description'   => __( 'Add widgets here to appear in your footer.', 'lz-charity-welfare' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
 	) );
 
 	register_sidebar( array(
@@ -107,8 +123,8 @@ function lz_charity_welfare_widgets_init() {
 		'description'   => __( 'Add widgets here to appear in your footer.', 'lz-charity-welfare' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
 	) );
 
 	register_sidebar( array(
@@ -117,8 +133,8 @@ function lz_charity_welfare_widgets_init() {
 		'description'   => __( 'Add widgets here to appear in your footer.', 'lz-charity-welfare' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
 	) );
 
 	register_sidebar( array(
@@ -127,8 +143,8 @@ function lz_charity_welfare_widgets_init() {
 		'description'   => __( 'Add widgets here to appear in your footer.', 'lz-charity-welfare' ),
 		'before_widget' => '<section id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
 	) );
 }
 add_action( 'widgets_init', 'lz_charity_welfare_widgets_init' );
@@ -185,6 +201,7 @@ function lz_charity_welfare_scripts() {
 	wp_enqueue_script( 'lz-charity-welfare-navigation-jquery', get_theme_file_uri( '/assets/js/navigation.js' ), array( 'jquery' ), '2.1.2', true );
 	wp_enqueue_script( 'lz-charity-welfare-skip-link-focus-fix', get_theme_file_uri( '/assets/js/skip-link-focus-fix.js' ), array(), '1.0', true );
 	wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/assets/js/bootstrap.js', array('jquery') );
+	wp_enqueue_script( 'jquery-superfish', get_template_directory_uri() . '/assets/js/jquery.superfish.js', array('jquery') ,'',true);
 
 	wp_localize_script( 'lz-charity-welfare-skip-link-focus-fix', 'lz_charity_welfareScreenReaderText', $lz_charity_welfare_l10n );
 
@@ -217,11 +234,15 @@ function lz_charity_welfare_sanitize_choices( $input, $setting ) {
 }
 
 //footer Link
-define('LZ_CHARITY_WELFARE_CREDIT','https://www.luzuk.com/','lz-charity-welfare');
+define('LZ_CHARITY_WELFARE_LIVE_DEMO',__('https://www.luzuk.com/demo/lz-charity-welfare/','lz-charity-welfare'));
+define('LZ_CHARITY_WELFARE_PRO_DOCS',__('https://luzuk.com/demo/lz-charity-welfare/documentation/','lz-charity-welfare'));
+define('LZ_CHARITY_WELFARE_BUY_NOW',__('https://www.luzuk.com/themes/charity-wordpress-theme/','lz-charity-welfare'));
+define('LZ_CHARITY_WELFARE_SUPPORT',__('https://wordpress.org/support/theme/lz-charity-welfare/','lz-charity-welfare'));
+define('LZ_CHARITY_WELFARE_CREDIT',__('https://www.luzuk.com/themes/free-charity-wordpress-theme/','lz-charity-welfare'));
 
 if ( ! function_exists( 'lz_charity_welfare_credit' ) ) {
 	function lz_charity_welfare_credit(){
-		echo "<a href=".esc_url(LZ_CHARITY_WELFARE_CREDIT)." target='_blank'>".esc_html__('Luzuk','lz-charity-welfare')."</a>";
+		echo "<a href=".esc_url(LZ_CHARITY_WELFARE_CREDIT)." target='_blank'>".esc_html__('Charity WordPress Theme','lz-charity-welfare')."</a>";
 	}
 }
 
@@ -234,9 +255,9 @@ function lz_charity_welfare_string_limit_words($string, $word_limit) {
 }
 
 // Change number or products per row to 3
-add_filter('loop_shop_columns', 'loop_columns');
-	if (!function_exists('loop_columns')) {
-		function loop_columns() {
+add_filter('loop_shop_columns', 'lz_charity_welfare_loop_columns');
+	if (!function_exists('lz_charity_welfare_loop_columns')) {
+		function lz_charity_welfare_loop_columns() {
 	return 3; // 3 products per row
 	}
 }
@@ -249,3 +270,5 @@ require get_parent_theme_file_path( '/inc/template-tags.php' );
 require get_parent_theme_file_path( '/inc/template-functions.php' );
 
 require get_parent_theme_file_path( '/inc/customizer.php' );
+
+require get_parent_theme_file_path( '/inc/getting-started/getting-started.php' );

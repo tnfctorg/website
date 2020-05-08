@@ -22,13 +22,13 @@
 	<div class="inner">
 		<div id="primary" class="grid_16">
 			<article class="single-404">
-				
+
 				<a target="_self" class="button medium black square" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php _e('Go Home', 'charitas-lite'); ?></a>
 				<br /><br />
 				<p><?php _e('or', 'charitas-lite'); ?></p>
 				<?php get_template_part( 'searchform' ); ?>
 			</article>
-			
+
 		</div>
 
 		<div class="clear"></div>

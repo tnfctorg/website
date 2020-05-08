@@ -4,42 +4,30 @@
  */
 
 class SiteOrigin_Widgets_Resource extends WP_REST_Controller {
-	
-	/**
-	 * @var SiteOrigin_Widgets_Widget_Manager
-	 */
-	private $widgets_manager;
-	
-	public function __construct() {
-		$this->widgets_manager = SiteOrigin_Widgets_Widget_Manager::single();
-	}
-	
+
 	public function register_routes() {
 		$version = '1';
 		$namespace = 'sowb/v' . $version;
 		$resource = 'widgets';
-		
-		register_rest_route( $namespace, '/' . $resource, array(
-			'methods' => WP_REST_Server::READABLE,
-			'callback' => array( $this, 'get_widgets'),
-			'permission_callback' => array( $this, 'permissions_check' ),
-		) );
-		
+
 		$subresource = 'forms';
 		register_rest_route( $namespace, '/' . $resource . '/' . $subresource, array(
-			'methods' => WP_REST_Server::READABLE,
+			'methods' => WP_REST_Server::CREATABLE,
 			'callback' => array( $this, 'get_widget_form'),
 			'args' => array(
 				'widgetClass' => array(
 					'validate_callback' => array( $this, 'validate_widget_class'),
 				),
+				'widgetData' => array(
+					'validate_callback' => array( $this, 'validate_widget_data'),
+				),
 			),
 			'permission_callback' => array( $this, 'permissions_check' ),
 		) );
-		
+
 		$subresource = 'previews';
 		register_rest_route( $namespace, '/' . $resource . '/' . $subresource, array(
-			'methods' => WP_REST_Server::READABLE,
+			'methods' => WP_REST_Server::CREATABLE,
 			'callback' => array( $this, 'get_widget_preview'),
 			'args' => array(
 				'widgetClass' => array(
@@ -52,50 +40,28 @@ class SiteOrigin_Widgets_Resource extends WP_REST_Controller {
 			'permission_callback' => array( $this, 'permissions_check' ),
 		) );
 	}
-	
-	/**
-	 * Get the collection of widgets.
-	 *
-	 * @param WP_REST_Request $request
-	 *
-	 * @return WP_Error|WP_REST_Response
-	 */
-	public function get_widgets( $request ) {
-		global $wp_widget_factory;
-		$so_widgets = array();
-		foreach ( $wp_widget_factory->widgets as $class => $widget_obj ) {
-			if ( ! empty( $widget_obj ) && is_object( $widget_obj ) && is_subclass_of( $widget_obj, 'SiteOrigin_Widget' ) ) {
-				$so_widgets[] = array(
-					'name' => preg_replace( '/^SiteOrigin /', '', $widget_obj->name ),
-					'class' => $class,
-				);
-			}
-		}
-		
-		return rest_ensure_response( $so_widgets );
-	}
-	
+
 	/**
 	 *
 	 * @param WP_REST_Request $request Request.
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function permissions_check( $request ) {
-		
+
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			$status_code = rest_authorization_required_code();
 			return new WP_Error(
 				$status_code,
-				__( '', 'so-widgets-bundle' ),
+				__( 'Insufficient permissions.', 'so-widgets-bundle' ),
 				array(
 					'status' => $status_code,
 				)
 			);
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Validate passed in widgetClass arg only contains alphanumeric and underscores.
 	 *
@@ -108,7 +74,7 @@ class SiteOrigin_Widgets_Resource extends WP_REST_Controller {
 	function validate_widget_class( $param, $request, $key ) {
 		return preg_match( '/\w+/', $param ) == 1;
 	}
-	
+
 	/**
 	 * Get the collection of widgets.
 	 *
@@ -118,23 +84,31 @@ class SiteOrigin_Widgets_Resource extends WP_REST_Controller {
 	 */
 	public function get_widget_form( $request ) {
 		$widget_class = $request['widgetClass'];
-		
-		global $wp_widget_factory;
-		
-		$widget = ! empty( $wp_widget_factory->widgets[ $widget_class ] ) ? $wp_widget_factory->widgets[ $widget_class ] : false;
-		
+		$widget_data = empty( $request['widgetData'] ) ? array() : $request['widgetData'];
+
+		/* @var $widget SiteOrigin_Widget */
+		$widget = SiteOrigin_Widgets_Widget_Manager::get_widget_instance( $widget_class );
+
 		if ( ! empty( $widget ) && is_object( $widget ) && is_subclass_of( $widget, 'SiteOrigin_Widget' ) ) {
+			if ( ! empty( $widget_data ) ) {
+				$widget_data = $widget->update( $widget_data, $widget_data );
+			}
 			ob_start();
-			/* @var $widget SiteOrigin_Widget */
-			$widget->form( array() );
+			$widget->form( $widget_data );
 			$widget_form = ob_get_clean();
 		} else {
-			$widget_form = new WP_Error( '', 'Invalid widget class.' );
+			$widget_form = new WP_Error(
+				400,
+				'Invalid or missing widget class: ' . $widget_class,
+				array(
+					'status' => 400,
+				)
+			);
 		}
-		
+
 		return rest_ensure_response( $widget_form );
 	}
-	
+
 	/**
 	 * For now widget data is validated in the below `get_widget_preview` function.
 	 * Leaving this here for possible later implementation.
@@ -148,7 +122,7 @@ class SiteOrigin_Widgets_Resource extends WP_REST_Controller {
 	function validate_widget_data( $param, $request, $key ) {
 		return true;
 	}
-	
+
 	/**
 	 * Get the collection of widgets.
 	 *
@@ -159,23 +133,45 @@ class SiteOrigin_Widgets_Resource extends WP_REST_Controller {
 	public function get_widget_preview( $request ) {
 		$widget_class = $request['widgetClass'];
 		$widget_data = $request['widgetData'];
-		
-		global $wp_widget_factory;
-		
-		$widget = ! empty( $wp_widget_factory->widgets[ $widget_class ] ) ? $wp_widget_factory->widgets[ $widget_class ] : false;
+
+		$widget = SiteOrigin_Widgets_Widget_Manager::get_widget_instance( $widget_class );
 		// This ensures styles are added inline.
 		add_filter( 'siteorigin_widgets_is_preview', '__return_true' );
-		
-		if ( ! empty( $widget ) && is_object( $widget ) && is_subclass_of( $widget, 'SiteOrigin_Widget' ) ) {
+		$GLOBALS[ 'SO_WIDGETS_BUNDLE_PREVIEW_RENDER' ] = true;
+
+		$valid_widget_class = ! empty( $widget ) &&
+							  is_object( $widget ) &&
+							  is_subclass_of( $widget, 'SiteOrigin_Widget' );
+
+		if ( $valid_widget_class && ! empty( $widget_data ) ) {
 			ob_start();
 			/* @var $widget SiteOrigin_Widget */
 			$instance = $widget->update( $widget_data, $widget_data );
 			$widget->widget( array(), $instance );
 			$rendered_widget = ob_get_clean();
 		} else {
-			$rendered_widget = new WP_Error( '', 'Invalid widget class.' );
+			if ( empty( $valid_widget_class ) ) {
+				$rendered_widget = new WP_Error(
+					400,
+					'Invalid or missing widget class: ' . $widget_class,
+					array(
+						'status' => 400,
+					)
+				);
+			} else if ( empty( $widget_data ) ) {
+				$rendered_widget = new WP_Error(
+					400,
+					'Unable to render preview. Invalid or missing widget data.',
+					array(
+						'status' => 400,
+					)
+				);
+
+			}
 		}
-		
+
+		unset( $GLOBALS['SO_WIDGETS_BUNDLE_PREVIEW_RENDER'] );
+
 		return rest_ensure_response( $rendered_widget );
 	}
 }

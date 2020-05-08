@@ -8,14 +8,14 @@
  * Author URI: http://www.wplook.com
 */
 
-add_action('widgets_init', create_function('', 'return register_widget("wplook_page_widget");'));
+add_action('widgets_init', function(){return register_widget("wplook_page_widget");});
 class wplook_page_widget extends WP_Widget {
 
-	
+
 	/*-----------------------------------------------------------------------------------*/
 	/*	Widget actual processes
 	/*-----------------------------------------------------------------------------------*/
-	
+
 	public function __construct() {
 		parent::__construct(
 	 		'wplook_page_widget',
@@ -24,13 +24,13 @@ class wplook_page_widget extends WP_Widget {
 		);
 	}
 
-	
+
 	/*-----------------------------------------------------------------------------------*/
 	/*	Outputs the options form on admin
 	/*-----------------------------------------------------------------------------------*/
-	
+
 	public function form( $instance ) {
-		
+
 		if ( $instance ) {
 			$title = esc_attr( $instance[ 'title' ] );
 		}
@@ -50,7 +50,7 @@ class wplook_page_widget extends WP_Widget {
 
 			<p>
 				<label for="<?php echo $this->get_field_id('pages'); ?>"> <?php _e('Page:', 'charitas-lite'); ?> </label>
-				
+
 				<?php
 				$args = array(
 				    'id' => $this->get_field_id('page_id'),
@@ -63,14 +63,14 @@ class wplook_page_widget extends WP_Widget {
 			<br />
 			<p style="font-size: 10px; color: #999; margin: -10px 0 0 0px; padding: 0px;"> <?php _e('The ID of this widget is: <strong>pagecontent</strong>', 'charitas-lite'); ?></p>
 			<br />
-		<?php 
+		<?php
 	}
-	
+
 
 	/*-----------------------------------------------------------------------------------*/
 	/*	Processes widget options to be saved
 	/*-----------------------------------------------------------------------------------*/
-	
+
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = sanitize_text_field($new_instance['title']);
@@ -88,9 +88,9 @@ class wplook_page_widget extends WP_Widget {
 		extract( $args );
 		$title = apply_filters( 'widget_title', empty($instance['title']) ? '' : $instance['title'], $instance );
 		$page_id = isset( $instance['page_id'] ) ? esc_attr( $instance['page_id'] ) : '';
-		
+
 		?>
-	
+
 			<?php if ($title=="") $title = "Social Widget"; ?>
 			<?php echo $before_widget; ?>
 			<?php if ( $title )

@@ -28,7 +28,7 @@ function vw_charity_ngo_setup() {
 	) );
 	add_image_size('vw-charity-ngo-homepage-thumb',240,145,true);
 	
-       register_nav_menus( array(
+   	register_nav_menus( array(
 		'primary' => __( 'Primary Menu', 'vw-charity-ngo' ),
 	) );
 
@@ -36,13 +36,23 @@ function vw_charity_ngo_setup() {
 		'default-color' => 'ffffff'
 	) );
 
+	//selective refresh for sidebar and widgets
+	add_theme_support( 'customize-selective-refresh-widgets' );
+
+	  /*
+	 * Enable support for Post Formats.
+	 *
+	 * See: https://codex.wordpress.org/Post_Formats
+	 */
+	add_theme_support( 'post-formats', array('image','video','gallery','audio',) );
+
 	/*
 	 * This theme styles the visual editor to resemble the theme style,
 	 * specifically font, colors, icons, and column width.
 	 */
 	add_editor_style( array( 'css/editor-style.css', vw_charity_ngo_font_url() ) );
-}
-// Theme Activation Notice
+	}
+	// Theme Activation Notice
 	global $pagenow;
 	
 	if ( is_admin() && ('themes.php' == $pagenow) && isset( $_GET['activated'] ) ) {
@@ -59,8 +69,8 @@ function vw_charity_ngo_activation_notice() {
 		echo '<p>'. esc_html__( 'Thank you for choosing VW Charity NGO Theme. Would like to have you on our Welcome page so that you can reap all the benefits of our VW Charity NGO Theme.', 'vw-charity-ngo' ) .'</p>';
 		echo '<p><a href="'. esc_url( admin_url( 'themes.php?page=vw_charity_ngo_guide' ) ) .'" class="button button-primary">'. esc_html__( 'GET STARTED', 'vw-charity-ngo' ) .'</a></p>';
 	echo '</div>';
-
 }
+
 function vw_charity_ngo_widgets_init() {
 	register_sidebar( array(
 		'name'          => __( 'Blog Sidebar', 'vw-charity-ngo' ),
@@ -136,6 +146,26 @@ function vw_charity_ngo_widgets_init() {
 		'name'          => __( 'Social Icon', 'vw-charity-ngo' ),
 		'description'   => __( 'Appears on top bar', 'vw-charity-ngo' ),
 		'id'            => 'social-icon',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
+	) );
+
+	register_sidebar( array(
+		'name'          => __( 'Shop Page Sidebar', 'vw-charity-ngo' ),
+		'description'   => __( 'Appears on shop page', 'vw-charity-ngo' ),
+		'id'            => 'woocommerce-shop-sidebar',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
+	) );
+
+	register_sidebar( array(
+		'name'          => __( 'Single Product Sidebar', 'vw-charity-ngo' ),
+		'description'   => __( 'Appears on single product page', 'vw-charity-ngo' ),
+		'id'            => 'woocommerce-single-sidebar',
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</aside>',
 		'before_title'  => '<h3 class="widget-title">',
@@ -245,7 +275,7 @@ function vw_charity_ngo_font_url() {
 	$font_family[] = 'Unica One';
 
 	$query_args = array(
-		'family'	=> urlencode(implode('|',$font_family)),
+		'family'	=> rawurlencode(implode('|',$font_family)),
 	);
 	$font_url = add_query_arg($query_args,'//fonts.googleapis.com/css');
 	return $font_url;
@@ -256,94 +286,13 @@ function vw_charity_ngo_scripts() {
 	wp_enqueue_style( 'vw-charity-ngo-font', vw_charity_ngo_font_url(), array() );
 	wp_enqueue_style( 'bootstrap-style', get_template_directory_uri().'/css/bootstrap.css' );
 	wp_enqueue_style( 'vw-charity-ngo-basic-style', get_stylesheet_uri() );	
-	wp_enqueue_style( 'effect', get_template_directory_uri().'/css/effect.css' );
+	require get_parent_theme_file_path( '/inline-style.php' );
+	wp_add_inline_style( 'vw-charity-ngo-basic-style',$vw_charity_ngo_custom_css );
+	wp_enqueue_style( 'vw-charity-ngo-effect', get_template_directory_uri().'/css/effect.css' );
 	wp_enqueue_style( 'font-awesome', get_template_directory_uri().'/css/fontawesome-all.css' );
 
-	// Paragraph
-	    $vw_charity_ngo_paragraph_color = get_theme_mod('vw_charity_ngo_paragraph_color', '');
-	    $vw_charity_ngo_paragraph_font_family = get_theme_mod('vw_charity_ngo_paragraph_font_family', '');
-	    $vw_charity_ngo_paragraph_font_size = get_theme_mod('vw_charity_ngo_paragraph_font_size', '');
-	// "a" tag
-		$vw_charity_ngo_atag_color = get_theme_mod('vw_charity_ngo_atag_color', '');
-	    $vw_charity_ngo_atag_font_family = get_theme_mod('vw_charity_ngo_atag_font_family', '');
-	// "li" tag
-		$vw_charity_ngo_li_color = get_theme_mod('vw_charity_ngo_li_color', '');
-	    $vw_charity_ngo_li_font_family = get_theme_mod('vw_charity_ngo_li_font_family', '');
-	// H1
-		$vw_charity_ngo_h1_color = get_theme_mod('vw_charity_ngo_h1_color', '');
-	    $vw_charity_ngo_h1_font_family = get_theme_mod('vw_charity_ngo_h1_font_family', '');
-	    $vw_charity_ngo_h1_font_size = get_theme_mod('vw_charity_ngo_h1_font_size', '');
-	// H2
-		$vw_charity_ngo_h2_color = get_theme_mod('vw_charity_ngo_h2_color', '');
-	    $vw_charity_ngo_h2_font_family = get_theme_mod('vw_charity_ngo_h2_font_family', '');
-	    $vw_charity_ngo_h2_font_size = get_theme_mod('vw_charity_ngo_h2_font_size', '');
-	// H3
-		$vw_charity_ngo_h3_color = get_theme_mod('vw_charity_ngo_h3_color', '');
-	    $vw_charity_ngo_h3_font_family = get_theme_mod('vw_charity_ngo_h3_font_family', '');
-	    $vw_charity_ngo_h3_font_size = get_theme_mod('vw_charity_ngo_h3_font_size', '');
-	// H4
-		$vw_charity_ngo_h4_color = get_theme_mod('vw_charity_ngo_h4_color', '');
-	    $vw_charity_ngo_h4_font_family = get_theme_mod('vw_charity_ngo_h4_font_family', '');
-	    $vw_charity_ngo_h4_font_size = get_theme_mod('vw_charity_ngo_h4_font_size', '');
-	// H5
-		$vw_charity_ngo_h5_color = get_theme_mod('vw_charity_ngo_h5_color', '');
-	    $vw_charity_ngo_h5_font_family = get_theme_mod('vw_charity_ngo_h5_font_family', '');
-	    $vw_charity_ngo_h5_font_size = get_theme_mod('vw_charity_ngo_h5_font_size', '');
-	// H6
-		$vw_charity_ngo_h6_color = get_theme_mod('vw_charity_ngo_h6_color', '');
-	    $vw_charity_ngo_h6_font_family = get_theme_mod('vw_charity_ngo_h6_font_family', '');
-	    $vw_charity_ngo_h6_font_size = get_theme_mod('vw_charity_ngo_h6_font_size', '');
-
-
-		$custom_css ='
-			p,span{
-			    color:'.esc_html($vw_charity_ngo_paragraph_color).'!important;
-			    font-family: '.esc_html($vw_charity_ngo_paragraph_font_family).';
-			    font-size: '.esc_html($vw_charity_ngo_paragraph_font_size).';
-			}
-			a{
-			    color:'.esc_html($vw_charity_ngo_atag_color).'!important;
-			    font-family: '.esc_html($vw_charity_ngo_atag_font_family).';
-			}
-			li{
-			    color:'.esc_html($vw_charity_ngo_li_color).'!important;
-			    font-family: '.esc_html($vw_charity_ngo_li_font_family).';
-			}
-			h1{
-			    color:'.esc_html($vw_charity_ngo_h1_color).'!important;
-			    font-family: '.esc_html($vw_charity_ngo_h1_font_family).'!important;
-			    font-size: '.esc_html($vw_charity_ngo_h1_font_size).'!important;
-			}
-			h2{
-			    color:'.esc_html($vw_charity_ngo_h2_color).'!important;
-			    font-family: '.esc_html($vw_charity_ngo_h2_font_family).'!important;
-			    font-size: '.esc_html($vw_charity_ngo_h2_font_size).'!important;
-			}
-			h3{
-			    color:'.esc_html($vw_charity_ngo_h3_color).'!important;
-			    font-family: '.esc_html($vw_charity_ngo_h3_font_family).'!important;
-			    font-size: '.esc_html($vw_charity_ngo_h3_font_size).'!important;
-			}
-			h4{
-			    color:'.esc_html($vw_charity_ngo_h4_color).'!important;
-			    font-family: '.esc_html($vw_charity_ngo_h4_font_family).'!important;
-			    font-size: '.esc_html($vw_charity_ngo_h4_font_size).'!important;
-			}
-			h5{
-			    color:'.esc_html($vw_charity_ngo_h5_color).'!important;
-			    font-family: '.esc_html($vw_charity_ngo_h5_font_family).'!important;
-			    font-size: '.esc_html($vw_charity_ngo_h5_font_size).'!important;
-			}
-			h6{
-			    color:'.esc_html($vw_charity_ngo_h6_color).'!important;
-			    font-family: '.esc_html($vw_charity_ngo_h6_font_family).'!important;
-			    font-size: '.esc_html($vw_charity_ngo_h6_font_size).'!important;
-			}
-
-			';
-		wp_add_inline_style( 'vw-charity-ngo-basic-style',$custom_css );
-
 	wp_enqueue_script( 'bootstrap-jquery', get_template_directory_uri() . '/js/bootstrap.js', array('jquery') ,'',true);
+	wp_enqueue_script( 'jquery-superfish', get_template_directory_uri() . '/js/jquery.superfish.js', array('jquery') ,'',true);
 	wp_enqueue_script( 'vw-charity-ngo-custom-scripts-jquery', get_template_directory_uri() . '/js/custom.js', array('jquery') );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -355,14 +304,12 @@ function vw_charity_ngo_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'vw_charity_ngo_scripts' );
 
-function vw_charity_ngo_ie_stylesheet(){
-	wp_enqueue_style('vw-charity-ngo-ie', get_template_directory_uri().'/css/ie.css');
-	wp_style_add_data( 'vw-charity-ngo-ie', 'conditional', 'IE' );
+function vw_charity_ngo_sanitize_dropdown_pages( $page_id, $setting ) {
+	$page_id = absint( $page_id );
+	return ( 'publish' == get_post_status( $page_id ) ? $page_id : $setting->default );
 }
-add_action('wp_enqueue_scripts','vw_charity_ngo_ie_stylesheet');
 
 /*radio button sanitization*/
-
 function vw_charity_ngo_sanitize_choices( $input, $setting ) {
     global $wp_customize; 
     $control = $wp_customize->get_control( $setting->id ); 
@@ -381,24 +328,36 @@ function vw_charity_ngo_string_limit_words($string, $word_limit) {
 	return implode(' ', $words);
 }
 
-define('VW_CHARITY_NGO_FREE_THEME_DOC','https://vwthemes.com/docs/free-vw-charity-ngo/','vw-charity-ngo');
-define('VW_CHARITY_NGO_REVIEW','https://www.vwthemes.com/topic/reviews-and-testimonials/','vw-charity-ngo');
-define('VW_CHARITY_NGO_BUY_NOW','https://www.vwthemes.com/themes/premium-charity-wordpress-theme/','vw-charity-ngo');
-define('VW_CHARITY_NGO_LIVE_DEMO','https://www.vwthemes.net/vw-charity-ngo-pro/','vw-charity-ngo');
-define('VW_CHARITY_NGO_PRO_DOC','https://vwthemes.com/docs/vw-charity-ngo-pro/','vw-charity-ngo');
-define('VW_CHARITY_NGO_FAQ','https://www.vwthemes.com/faqs/','vw-charity-ngo');
-define('VW_CHARITY_NGO_CHILD_THEME','https://developer.wordpress.org/themes/advanced-topics/child-themes/','vw-charity-ngo');
-define('VW_CHARITY_NGO_CONTACT','https://wordpress.org/support/theme/vw-charity-ngo/','vw-charity-ngo');
-define('VW_CHARITY_NGO_DEMO_DATA','https://vwthemes.net/docs/vw-charity-demo.xml.zip','vw-charity-ngo');
-
-define('vw_charity_ngo_CREDIT','https://www.vwthemes.com','vw-charity-ngo');
-
-if ( ! function_exists( 'vw_charity_ngo_credit' ) ) {
-	function vw_charity_ngo_credit(){
-		echo "<a href=".esc_url(vw_charity_ngo_CREDIT)." target='_blank'>".esc_html__('VWThemes','vw-charity-ngo')."</a>";
+// Change number or products per row to 3
+add_filter('loop_shop_columns', 'vw_charity_ngo_loop_columns');
+if (!function_exists('vw_charity_ngo_loop_columns')) {
+	function vw_charity_ngo_loop_columns() {
+		return 3; // 3 products per row
 	}
 }
 
+/* admin bar */
+function vw_charity_ngo_my_filter_head(){
+	remove_action('wp_head','_admin_bar_bump_cb');
+}
+add_action('get_header','vw_charity_ngo_my_filter_head');
+
+define('VW_CHARITY_NGO_FREE_THEME_DOC',__('https://www.vwthemesdemo.com/docs/free-vw-charity-ngo/','vw-charity-ngo'));
+define('VW_CHARITY_NGO_SUPPORT',__('https://wordpress.org/support/theme/vw-charity-ngo/','vw-charity-ngo'));
+define('VW_CHARITY_NGO_REVIEW',__('https://wordpress.org/support/theme/vw-charity-ngo/reviews/','vw-charity-ngo'));
+define('VW_CHARITY_NGO_BUY_NOW',__('https://www.vwthemes.com/themes/premium-charity-wordpress-theme/','vw-charity-ngo'));
+define('VW_CHARITY_NGO_LIVE_DEMO',__('https://www.vwthemes.net/vw-charity-ngo-pro/','vw-charity-ngo'));
+define('VW_CHARITY_NGO_PRO_DOC',__('https://www.vwthemesdemo.com/docs/vw-charity-ngo-pro/','vw-charity-ngo'));
+define('VW_CHARITY_NGO_FAQ',__('https://www.vwthemes.com/faqs/','vw-charity-ngo'));
+define('VW_CHARITY_NGO_CHILD_THEME',__('https://developer.wordpress.org/themes/advanced-topics/child-themes/','vw-charity-ngo'));
+define('VW_CHARITY_NGO_CONTACT',__('https://www.vwthemes.com/contact/','vw-charity-ngo'));
+define('VW_CHARITY_NGO_CREDIT',__('https://www.vwthemes.com/themes/free-charity-wordpress-theme/','vw-charity-ngo'));
+
+if ( ! function_exists( 'vw_charity_ngo_credit' ) ) {
+	function vw_charity_ngo_credit(){
+		echo "<a href=".esc_url(VW_CHARITY_NGO_CREDIT).">".esc_html__('Charity WordPress Theme','vw-charity-ngo')."</a>";
+	}
+}
 
 /* Implement the Custom Header feature. */
 require get_template_directory() . '/inc/custom-header.php';
@@ -410,7 +369,16 @@ require get_template_directory() . '/inc/template-tags.php';
 require get_template_directory() . '/inc/customizer.php';
 
 /* Social Custom Widgets */
-require get_template_directory() . '/inc/custom-widgets/social-profile.php';
+require get_template_directory() . '/inc/themes-widgets/social-profile.php';
+
+/* Customizer additions. */
+require get_template_directory() . '/inc/themes-widgets/about-us-widget.php';
+
+/* Customizer additions. */
+require get_template_directory() . '/inc/themes-widgets/contact-us-widget.php';
 
 /* Implement the About theme page */
 require get_template_directory() . '/inc/getting-started/getting-started.php';
+
+/* typography */
+require get_template_directory() . '/inc/typography/ctypo.php';

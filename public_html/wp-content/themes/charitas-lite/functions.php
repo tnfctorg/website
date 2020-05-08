@@ -19,8 +19,10 @@ if ( ! isset( $content_width ) )
 	/*-----------------------------------------------------------
 		Include Customizer
 	-----------------------------------------------------------*/
-	
+
 	include_once( get_template_directory() . '/inc/customize.php' );
+	include_once( get_template_directory() . '/inc/pro/class-customize.php' );
+	
 /*-----------------------------------------------------------------------------------*/
 /*	Theme setup
 /*-----------------------------------------------------------------------------------*/
@@ -40,67 +42,75 @@ function charitas_setup() {
 	/*-----------------------------------------------------------
 		Theme style for the visual editor
 	-----------------------------------------------------------*/
-	
+
 	add_editor_style( 'css/editor-style.css' );
+
 
 	/*-----------------------------------------------------------
 		Add default posts and comments RSS feed links to head
 	-----------------------------------------------------------*/
-	
+
 	add_theme_support( 'automatic-feed-links' );
-	
+
+
+	/*-----------------------------------------------------------
+		Add default posts and comments RSS feed links to head
+	-----------------------------------------------------------*/
+
+	add_theme_support( 'woocommerce' );
+
 
 	/*-----------------------------------------------------------
 		Enable support for Title Tag
 	-----------------------------------------------------------*/
-	
+
 	add_theme_support( 'title-tag' );
 
 
 	/*-----------------------------------------------------------
 		Enable support for Post Thumbnails on posts and pages
 	-----------------------------------------------------------*/
-	
+
 	add_theme_support( 'post-thumbnails' );
 	add_image_size( 'charitas-lite-small-thumb', 272, 150, true );
 	add_image_size( 'charitas-lite-medium-thumb', 500, 277, true );
 	add_image_size( 'charitas-lite-big-thumb', 1200, 661, true );
-	
+
 	/*-----------------------------------------------------------
 		Register menu
 	-----------------------------------------------------------*/
-	
+
 	function register_my_menus() {
 		register_nav_menus(
 				array(
 					'primary' => __( 'Main Menu', 'charitas-lite' ),
 					'language' => __( 'Language Menu', 'charitas-lite' ),
-				) 
+				)
 		);
 	}
-		
+
 	add_action( 'init', 'register_my_menus' );
 	wp_create_nav_menu( 'Main Menu', array( 'slug' => 'primary' ) );
 	wp_create_nav_menu( 'Language Menu', array( 'slug' => 'language' ) );
-	
+
 	/*-----------------------------------------------------------
 		Enable support for Post Formats
 	-----------------------------------------------------------*/
-	
+
 	add_theme_support( 'post-formats', array( 'gallery', 'video', 'status' ) );
 
 
 	/*-----------------------------------------------------------
 		Add theme Support Custom Background
 	-----------------------------------------------------------*/
-	
+
 	add_theme_support( 'custom-background' );
 
 
 	/*-----------------------------------------------------------
 		Add theme Support  Custom Header
 	-----------------------------------------------------------*/
-	
+
 	add_theme_support( 'custom-header' );
 
 }
@@ -126,9 +136,16 @@ if ( ! function_exists( 'charitas_initiate_files' ) ) {
 }
 
 /*-----------------------------------------------------------------------------------*/
-/*	Custom Background
+/*	WooCommerce
+/*	@since Charitas Lite 1.0
 /*-----------------------------------------------------------------------------------*/
 
+add_filter('woocommerce_show_page_title', '__return_false');
+
+
+/*-----------------------------------------------------------------------------------*/
+/*	Custom Background
+/*-----------------------------------------------------------------------------------*/
 
 add_theme_support( 'custom-background', apply_filters( 'charitas_custom_background_args', array(
 	'default-color'          => 'ffffff',

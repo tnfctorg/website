@@ -56,12 +56,18 @@ jQuery( function ( $ ) {
 						function () {
 							$( this ).trigger( 'hide' );
 							selectedTabContent.removeAttr( 'aria-hidden' );
-							$tabPanels.eq( selectedIndex ).fadeIn( 'fast',
-								function () {
-									$( this ).trigger( 'show' );
+							$tabPanels.eq( selectedIndex ).fadeIn( {
+								duration: 'fast',
+								start: function () {
+									// Sometimes the content of the panel relies on a window resize to setup correctly.
+									// Trigger it here so it's hopefully done before the animation.
+									$( window ).trigger( 'resize' );
 									$( sowb ).trigger( 'setup_widgets' );
+								},
+								complete: function() {
+									$( this ).trigger( 'show' );
 								}
-							);
+							});
 						}
 					);
 					$tab.addClass( 'sow-tabs-tab-selected' );
@@ -113,10 +119,12 @@ jQuery( function ( $ ) {
 			if ( useAnchorTags ) {
 				var updateSelectedTab = function () {
 					if ( window.location.hash ) {
-						var anchors = window.location.hash.replace( '#', '' ).split( ',' );
+						var anchors = window.location.hash.substring(1).split( ',' );
 						anchors.forEach( function ( anchor ) {
-							var tab = $tabs.filter( '[data-anchor="' + anchor + '"]' );
-							if ( tab ) {
+							var tab = $tabs.filter( function ( index, element ) {
+								return decodeURI( anchor ) === decodeURI( $( element ).data( 'anchor' ) );
+							} );
+							if ( tab.length > 0 ) {
 								selectTab( tab, true );
 							}
 						} );
