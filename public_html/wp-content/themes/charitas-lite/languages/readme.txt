@@ -1,1 +1,0 @@
-We recommend to use the Codestyling Localization plugin for translating the theme http://wordpress.org/extend/plugins/codestyling-localization/
